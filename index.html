@@ -1,0 +1,4205 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>PropSuite — Developer Perumahan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --g0: #071209;
+        --g1: #0e2010;
+        --g2: #1a3320;
+        --g3: #264d33;
+        --gold: #c9a84c;
+        --gold2: #e8c46a;
+        --gold3: #f5dfa0;
+        --cream: #f6f3ec;
+        --white: #fff;
+        --border: #e4dfd3;
+        --text: #1a1a1a;
+        --muted: #8a8575;
+        --red: #c0392b;
+        --green: #27ae60;
+        --blue: #2980b9;
+        --orange: #e67e22;
+        --purple: #8e44ad;
+        --teal: #16a2b8;
+        --sans: "DM Sans", sans-serif;
+        --serif: "Playfair Display", serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--cream);
+        color: var(--text);
+      }
+
+      /* ── LOGIN ── */
+      #login-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: var(--g1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #login-screen.hidden {
+        display: none;
+      }
+      .lbox {
+        background: var(--white);
+        border-radius: 18px;
+        padding: 48px 44px;
+        width: 420px;
+        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+      }
+      .lbrand {
+        font-family: var(--serif);
+        font-size: 30px;
+        color: var(--g1);
+        letter-spacing: -0.5px;
+        margin-bottom: 2px;
+      }
+      .lbrand span {
+        color: var(--gold);
+      }
+      .lsub {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-bottom: 28px;
+      }
+      .ldemo {
+        background: #f2f9f4;
+        border-radius: 10px;
+        padding: 13px 15px;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 2;
+        margin-bottom: 22px;
+      }
+      .ldemo strong {
+        color: var(--g1);
+        display: block;
+        margin-bottom: 2px;
+      }
+      .lf {
+        margin-bottom: 15px;
+      }
+      .lf label {
+        display: block;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .lf input,
+      .lf select {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1.5px solid var(--border);
+        border-radius: 9px;
+        font-family: var(--sans);
+        font-size: 14px;
+        color: var(--text);
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      .lf input:focus {
+        border-color: var(--gold);
+      }
+      .btn-login {
+        width: 100%;
+        padding: 14px;
+        background: var(--g1);
+        color: var(--gold2);
+        border: none;
+        border-radius: 9px;
+        font-family: var(--serif);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: 0.03em;
+        margin-top: 6px;
+        transition: background 0.15s;
+      }
+      .btn-login:hover {
+        background: var(--g2);
+      }
+      .lerr {
+        color: var(--red);
+        font-size: 12px;
+        margin-top: 8px;
+        display: none;
+      }
+
+      /* ── APP SHELL ── */
+      #app {
+        display: flex;
+        height: 100vh;
+      }
+
+      /* ── SIDEBAR ── */
+      .sidebar {
+        width: 236px;
+        flex-shrink: 0;
+        background: var(--g0);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .sb-brand {
+        padding: 22px 20px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .sb-brand-name {
+        font-family: var(--serif);
+        font-size: 21px;
+        color: var(--gold);
+        letter-spacing: 0.01em;
+      }
+      .sb-brand-sub {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.28);
+        margin-top: 2px;
+      }
+      .sb-user {
+        padding: 13px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        display: flex;
+        align-items: center;
+        gap: 11px;
+      }
+      .sb-av {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--g3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--gold2);
+        flex-shrink: 0;
+        font-family: var(--serif);
+      }
+      .sb-uname {
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.88);
+      }
+      .sb-urole {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.35);
+        text-transform: capitalize;
+      }
+      .sb-nav {
+        flex: 1;
+        padding: 10px 0;
+        overflow-y: auto;
+      }
+      .sb-sec {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.22);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        padding: 12px 20px 4px;
+        margin-top: 4px;
+      }
+      .ni {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.45);
+        border-left: 3px solid transparent;
+        transition: all 0.14s;
+      }
+      .ni:hover {
+        color: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .ni.active {
+        color: var(--gold2);
+        border-left-color: var(--gold);
+        background: rgba(201, 168, 76, 0.07);
+      }
+      .ni-icon {
+        font-size: 14px;
+        width: 18px;
+        text-align: center;
+      }
+      .ni-badge {
+        margin-left: auto;
+        background: var(--red);
+        color: #fff;
+        border-radius: 99px;
+        font-size: 10px;
+        padding: 1px 7px;
+        font-weight: 700;
+        min-width: 20px;
+        text-align: center;
+      }
+      .sb-footer {
+        padding: 13px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        display: flex;
+        justify-content: space-between;
+        font-size: 10.5px;
+        color: rgba(255, 255, 255, 0.22);
+      }
+      .logout {
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .logout:hover {
+        color: var(--gold);
+      }
+
+      /* ── MAIN ── */
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .topbar {
+        height: 58px;
+        flex-shrink: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 26px;
+      }
+      .topbar-title {
+        font-family: var(--serif);
+        font-size: 19px;
+        color: var(--g1);
+      }
+      .topbar-right {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+      }
+      .content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 24px;
+      }
+
+      /* ── BUTTONS ── */
+      .btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        border: 1.5px solid var(--border);
+        background: var(--white);
+        color: var(--text);
+        transition: all 0.14s;
+      }
+      .btn:hover {
+        border-color: #b0a898;
+      }
+      .btn-primary {
+        background: var(--g1);
+        color: var(--gold2);
+        border-color: var(--g1);
+      }
+      .btn-primary:hover {
+        background: var(--g2);
+        border-color: var(--g2);
+      }
+      .btn-gold {
+        background: var(--gold);
+        color: var(--g1);
+        border-color: var(--gold);
+        font-weight: 700;
+      }
+      .btn-gold:hover {
+        background: var(--gold2);
+      }
+      .btn-sm {
+        padding: 5px 11px;
+        font-size: 11.5px;
+      }
+      .btn-xs {
+        padding: 4px 9px;
+        font-size: 11px;
+      }
+      .btn-danger {
+        background: var(--red);
+        color: #fff;
+        border-color: var(--red);
+      }
+      .btn-success {
+        background: var(--green);
+        color: #fff;
+        border-color: var(--green);
+      }
+      .btn-blue {
+        background: var(--blue);
+        color: #fff;
+        border-color: var(--blue);
+      }
+      .btn-outline {
+        background: transparent;
+      }
+
+      /* ── PAGES ── */
+      .page {
+        display: none;
+        animation: fadeIn 0.2s ease;
+      }
+      .page.active {
+        display: block;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ── STATS GRID ── */
+      .sg {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .sg-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .sg-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .sg-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .scard {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px 22px;
+        position: relative;
+        overflow: hidden;
+      }
+      .scard-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .scard-lbl {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+      }
+      .scard-val {
+        font-family: var(--serif);
+        font-size: 32px;
+        color: var(--g1);
+        letter-spacing: -1px;
+        line-height: 1;
+      }
+      .scard-sub {
+        font-size: 11.5px;
+        color: var(--muted);
+        margin-top: 5px;
+      }
+      .scard-icon {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 28px;
+        opacity: 0.12;
+      }
+
+      /* ── CARD ── */
+      .card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      }
+      .card-hd {
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card-hd-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .g2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .g3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+      }
+      .g-60-40 {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 16px;
+      }
+
+      /* ── TABLE ── */
+      .tw {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      thead th {
+        text-align: left;
+        padding: 10px 15px;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: #faf8f4;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+      }
+      tbody tr {
+        border-bottom: 1px solid var(--border);
+        transition: background 0.1s;
+      }
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+      tbody tr:hover {
+        background: #faf8f4;
+      }
+      tbody td {
+        padding: 11px 15px;
+        font-size: 13.5px;
+        vertical-align: middle;
+      }
+      .tname {
+        font-weight: 700;
+      }
+      .tsub {
+        font-size: 11.5px;
+        color: var(--muted);
+      }
+
+      /* ── BADGE ── */
+      .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 99px;
+        font-size: 10.5px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      /* unit status */
+      .bs-tersedia {
+        background: #e8f5ec;
+        color: #1e7e34;
+      }
+      .bs-dipesan {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .bs-terjual {
+        background: #d4edda;
+        color: #155724;
+      }
+      .bs-inden {
+        background: #e8effe;
+        color: #2053aa;
+      }
+      .bs-blokir {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      /* lead */
+      .bl-baru {
+        background: #e8f5ec;
+        color: #27ae60;
+      }
+      .bl-dihubungi {
+        background: #e8f0f8;
+        color: #2980b9;
+      }
+      .bl-tertarik {
+        background: #fef4e8;
+        color: #e67e22;
+      }
+      .bl-survey {
+        background: #f0e8fe;
+        color: #8e44ad;
+      }
+      .bl-booking {
+        background: #e8fcfe;
+        color: #16a2b8;
+      }
+      .bl-kpr {
+        background: #fff3cd;
+        color: #d4820a;
+      }
+      .bl-closing {
+        background: #d4edda;
+        color: #155724;
+      }
+      .bl-dead {
+        background: #f0f0f0;
+        color: #888;
+      }
+      /* payment */
+      .bp-lunas {
+        background: #d4edda;
+        color: #155724;
+      }
+      .bp-belum {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .bp-telat {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      /* doc */
+      .bd-lengkap {
+        background: #d4edda;
+        color: #155724;
+      }
+      .bd-proses {
+        background: #e8f0f8;
+        color: #2980b9;
+      }
+      .bd-kurang {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .bd-missing {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      /* approval */
+      .ba-pending {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .ba-approved {
+        background: #d4edda;
+        color: #155724;
+      }
+      .ba-rejected {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      /* source */
+      .bsrc-wa {
+        background: #e8fce8;
+        color: #25d366;
+      }
+      .bsrc-fb {
+        background: #e8effe;
+        color: #1877f2;
+      }
+      .bsrc-tt {
+        background: #f0e8fe;
+        color: #69c9d0;
+      }
+      .bsrc-ig {
+        background: #fce8f4;
+        color: #e1306c;
+      }
+      .bsrc-web {
+        background: #e8f4fc;
+        color: #0077b5;
+      }
+      .bsrc-pameran {
+        background: #fff0e8;
+        color: #e67e22;
+      }
+      .bsrc-referral {
+        background: #f0fce8;
+        color: #27ae60;
+      }
+
+      /* ── FILTER BAR ── */
+      .fbar {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        padding: 13px 18px;
+        border-bottom: 1px solid var(--border);
+        background: #faf8f4;
+        flex-wrap: wrap;
+      }
+      .fbar input,
+      .fbar select {
+        padding: 7px 11px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-family: var(--sans);
+        font-size: 12.5px;
+        outline: none;
+        background: var(--white);
+        color: var(--text);
+        transition: border-color 0.15s;
+      }
+      .fbar input:focus,
+      .fbar select:focus {
+        border-color: var(--gold);
+      }
+      .fbar input {
+        width: 200px;
+      }
+
+      /* ── UNIT GRID ── */
+      .unit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 14px;
+        padding: 20px;
+      }
+      .unit-card {
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.15s;
+        position: relative;
+        overflow: hidden;
+      }
+      .unit-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+      }
+      .uc-tersedia::before {
+        background: var(--green);
+      }
+      .uc-dipesan::before {
+        background: var(--gold);
+      }
+      .uc-terjual::before {
+        background: var(--g3);
+      }
+      .uc-inden::before {
+        background: var(--blue);
+      }
+      .uc-blokir::before {
+        background: var(--red);
+      }
+      .unit-card:hover {
+        border-color: var(--gold);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+      .uc-blok {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 4px;
+      }
+      .uc-no {
+        font-family: var(--serif);
+        font-size: 20px;
+        color: var(--g1);
+        margin-bottom: 3px;
+      }
+      .uc-tipe {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .uc-harga {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--g2);
+        margin-bottom: 8px;
+      }
+
+      /* ── PROGRESS BAR ── */
+      .prog-wrap {
+        background: var(--border);
+        border-radius: 99px;
+        height: 8px;
+        overflow: hidden;
+        flex: 1;
+      }
+      .prog-bar {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.5s;
+      }
+
+      /* ── PIPELINE ── */
+      .pipe-wrap {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+      .pipe-col {
+        flex-shrink: 0;
+        width: 210px;
+      }
+      .pipe-hd {
+        padding: 11px 13px;
+        border-radius: 9px 9px 0 0;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        display: flex;
+        justify-content: space-between;
+        color: #fff;
+      }
+      .pipe-body {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-top: none;
+        border-radius: 0 0 9px 9px;
+        padding: 9px;
+        min-height: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .pcard {
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.14s;
+      }
+      .pcard:hover {
+        border-color: var(--gold);
+        transform: translateY(-1px);
+      }
+      .pcard-name {
+        font-size: 12.5px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+      .pcard-unit {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .pcard-sales {
+        font-size: 11px;
+        color: var(--g3);
+        font-weight: 600;
+        margin-top: 3px;
+      }
+
+      /* ── ACTIVITY TIMELINE ── */
+      .act-item {
+        display: flex;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .act-item:last-child {
+        border-bottom: none;
+      }
+      .act-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--gold);
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .act-body {
+        flex: 1;
+      }
+      .act-txt {
+        font-size: 13px;
+      }
+      .act-meta {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      /* ── MODAL ── */
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(7, 18, 9, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 500;
+        align-items: center;
+        justify-content: center;
+      }
+      .overlay.open {
+        display: flex;
+      }
+      .modal {
+        background: var(--white);
+        border-radius: 14px;
+        width: 520px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 30px;
+        animation: mUp 0.2s ease;
+      }
+      .modal-lg {
+        width: 660px;
+      }
+      .modal-xl {
+        width: 800px;
+      }
+      @keyframes mUp {
+        from {
+          transform: translateY(14px);
+          opacity: 0;
+        }
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+      .mh {
+        font-family: var(--serif);
+        font-size: 21px;
+        color: var(--g1);
+        margin-bottom: 20px;
+      }
+      .fg {
+        margin-bottom: 14px;
+      }
+      .fg label {
+        display: block;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 5px;
+      }
+      .fg input,
+      .fg select,
+      .fg textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-family: var(--sans);
+        font-size: 13.5px;
+        color: var(--text);
+        outline: none;
+        transition: border-color 0.15s;
+        background: var(--white);
+      }
+      .fg input:focus,
+      .fg select:focus,
+      .fg textarea:focus {
+        border-color: var(--gold);
+      }
+      .fg textarea {
+        resize: vertical;
+        min-height: 75px;
+      }
+      .fg select option {
+        background: var(--white);
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .form-row3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+      }
+      .mfooter {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 22px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+      }
+
+      /* ── TABS ── */
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 18px;
+      }
+      .tab {
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.14s;
+      }
+      .tab.active {
+        color: var(--g1);
+        border-bottom-color: var(--gold);
+      }
+      .tab-pane {
+        display: none;
+      }
+      .tab-pane.active {
+        display: block;
+      }
+
+      /* ── REMINDER CARD ── */
+      .rem-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--gold);
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+      }
+      .rem-card.past {
+        border-left-color: var(--red);
+      }
+      .rem-body {
+        flex: 1;
+      }
+      .rem-lead {
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        color: var(--g1);
+      }
+      .rem-note {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .rem-date {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      /* ── APPROVAL ── */
+      .appr-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .appr-badge {
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+      .appr-body {
+        flex: 1;
+      }
+      .appr-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+      .appr-meta {
+        font-size: 11.5px;
+        color: var(--muted);
+      }
+      .appr-note {
+        font-size: 12.5px;
+        background: #faf8f4;
+        border-radius: 7px;
+        padding: 9px 12px;
+        margin-top: 10px;
+        color: var(--muted);
+      }
+
+      /* ── CONSTRUCTION ── */
+      .const-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 13px 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .const-row:last-child {
+        border-bottom: none;
+      }
+      .const-name {
+        width: 180px;
+        font-size: 13.5px;
+        font-weight: 600;
+      }
+      .const-pct {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--g2);
+        width: 44px;
+        text-align: right;
+      }
+
+      /* ── SRC BAR ── */
+      .src-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .src-row:last-child {
+        border-bottom: none;
+      }
+      .src-name {
+        width: 110px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .src-bw {
+        flex: 1;
+        height: 7px;
+        background: var(--border);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .src-bf {
+        height: 100%;
+        background: var(--gold);
+        border-radius: 99px;
+      }
+      .src-n {
+        font-size: 12px;
+        color: var(--muted);
+        width: 28px;
+        text-align: right;
+      }
+
+      /* ── LEADERBOARD ── */
+      .ldr-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .ldr-row:last-child {
+        border-bottom: none;
+      }
+      .ldr-rank {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--g2);
+        color: var(--gold);
+        font-size: 11px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ldr-rank.r1 {
+        background: var(--gold);
+        color: var(--g1);
+      }
+      .ldr-name {
+        flex: 1;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .ldr-stat {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .ldr-val {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--green);
+      }
+
+      /* ── CASHFLOW BAR ── */
+      .cf-bar-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .cf-lbl {
+        width: 80px;
+        font-size: 11.5px;
+        color: var(--muted);
+      }
+      .cf-bw {
+        flex: 1;
+        height: 10px;
+        background: var(--border);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .cf-bf {
+        height: 100%;
+        border-radius: 99px;
+      }
+      .cf-val {
+        width: 80px;
+        font-size: 12px;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      /* ── DOCUMENT CHECKLIST ── */
+      .doc-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 18px;
+        border-bottom: 1px solid var(--border);
+      }
+      .doc-item:last-child {
+        border-bottom: none;
+      }
+      .doc-chk {
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .doc-name {
+        flex: 1;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .doc-note {
+        font-size: 11.5px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      /* ── EMPTY ── */
+      .empty {
+        padding: 32px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .empty-icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      /* scrollbar */
+      ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 99px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ LOGIN ══ -->
+    <div id="login-screen">
+      <div class="lbox">
+        <div class="lbrand">Prop<span>Suite</span></div>
+        <div class="lsub">Platform Manajemen Developer Perumahan</div>
+        <div class="ldemo">
+          <strong>Demo Login:</strong>
+          Owner &nbsp;→ owner@prop.com / 123456<br />
+          Admin &nbsp;&nbsp;→ admin@prop.com / 123456<br />
+          Marketing → sales@prop.com / 123456
+        </div>
+        <div class="lf">
+          <label>Email</label
+          ><input
+            type="email"
+            id="l-email"
+            placeholder="email@perusahaan.com"
+          />
+        </div>
+        <div class="lf">
+          <label>Password</label
+          ><input
+            type="password"
+            id="l-pass"
+            placeholder="••••••"
+            onkeydown="if (event.key === 'Enter') doLogin();"
+          />
+        </div>
+        <button class="btn-login" onclick="doLogin()">
+          Masuk ke PropSuite →
+        </button>
+        <div class="lerr" id="lerr">Email atau password salah.</div>
+      </div>
+    </div>
+
+    <!-- ══ APP ══ -->
+    <div id="app">
+      <aside class="sidebar">
+        <div class="sb-brand">
+          <div class="sb-brand-name">PropSuite</div>
+          <div class="sb-brand-sub">Developer Perumahan</div>
+        </div>
+        <div class="sb-user">
+          <div class="sb-av" id="sb-av">?</div>
+          <div>
+            <div class="sb-uname" id="sb-nm">—</div>
+            <div class="sb-urole" id="sb-rl">—</div>
+          </div>
+        </div>
+        <nav class="sb-nav">
+          <!-- owner only -->
+          <div class="sb-sec ro-owner ro-admin">Overview</div>
+          <div
+            class="ni active ro-owner ro-admin"
+            id="nav-dash"
+            onclick="go('dash', this)"
+          >
+            <span class="ni-icon">◈</span>Dashboard Eksekutif
+          </div>
+
+          <div class="sb-sec">Operasional</div>
+          <div class="ni" id="nav-unit" onclick="go('unit', this)">
+            <span class="ni-icon">🏠</span>Stok Unit & Booking
+          </div>
+          <div class="ni" id="nav-crm" onclick="go('crm', this)">
+            <span class="ni-icon">◉</span>CRM & Lead
+          </div>
+          <div
+            class="ni ro-owner ro-admin"
+            id="nav-cicilan"
+            onclick="go('cicilan', this)"
+          >
+            <span class="ni-icon">💰</span>Cicilan & Pembayaran
+          </div>
+          <div
+            class="ni ro-owner ro-admin"
+            id="nav-dokumen"
+            onclick="go('dokumen', this)"
+          >
+            <span class="ni-icon">📋</span>Dokumen Customer
+          </div>
+
+          <div class="sb-sec ro-owner ro-admin">Proyek</div>
+          <div
+            class="ni ro-owner ro-admin"
+            id="nav-konstruksi"
+            onclick="go('konstruksi', this)"
+          >
+            <span class="ni-icon">🏗</span>Progress Pembangunan
+          </div>
+          <div
+            class="ni ro-owner ro-admin"
+            id="nav-approval"
+            onclick="go('approval', this)"
+          >
+            <span class="ni-icon">✅</span>Approval Internal
+            <span class="ni-badge" id="appr-badge" style="display: none"
+              >0</span
+            >
+          </div>
+
+          <div class="sb-sec ro-owner ro-admin">Tim</div>
+          <div
+            class="ni ro-owner ro-admin"
+            id="nav-tim"
+            onclick="go('tim', this)"
+          >
+            <span class="ni-icon">◎</span>Tim Sales
+          </div>
+        </nav>
+        <div class="sb-footer">
+          <span>v2.0</span
+          ><span class="logout" onclick="doLogout()">Keluar ↗</span>
+        </div>
+      </aside>
+
+      <div class="main">
+        <div class="topbar">
+          <span class="topbar-title" id="topbar-title"
+            >Dashboard Eksekutif</span
+          >
+          <div class="topbar-right" id="topbar-actions"></div>
+        </div>
+        <div class="content">
+          <!-- ══ 1. DASHBOARD OWNER ══ -->
+          <div class="page active" id="page-dash">
+            <div class="sg sg-4" id="dash-stats"></div>
+            <div class="g-60-40" style="margin-bottom: 16px">
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">Unit Overview</span>
+                </div>
+                <div style="padding: 18px 20px" id="dash-unit-bars"></div>
+              </div>
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">Sumber Lead Terbaik</span>
+                </div>
+                <div style="padding: 16px 20px" id="dash-src"></div>
+              </div>
+            </div>
+            <div class="g2">
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">Leaderboard Sales</span>
+                </div>
+                <div id="dash-leader"></div>
+              </div>
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">Approval Menunggu</span>
+                </div>
+                <div id="dash-approvals"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ 2. STOK UNIT ══ -->
+          <div class="page" id="page-unit">
+            <div class="card" style="margin-bottom: 16px">
+              <div class="card-hd">
+                <span class="card-hd-title">Semua Unit</span>
+                <div style="display: flex; gap: 8px; align-items: center">
+                  <select
+                    id="uf-status"
+                    onchange="renderUnits()"
+                    style="
+                      padding: 6px 10px;
+                      border: 1.5px solid var(--border);
+                      border-radius: 7px;
+                      font-family: var(--sans);
+                      font-size: 12px;
+                      outline: none;
+                    "
+                  >
+                    <option value="">Semua Status</option>
+                    <option>Tersedia</option>
+                    <option>Dipesan</option>
+                    <option>Terjual</option>
+                    <option>Inden</option>
+                    <option>Blokir</option>
+                  </select>
+                  <select
+                    id="uf-blok"
+                    onchange="renderUnits()"
+                    style="
+                      padding: 6px 10px;
+                      border: 1.5px solid var(--border);
+                      border-radius: 7px;
+                      font-family: var(--sans);
+                      font-size: 12px;
+                      outline: none;
+                    "
+                  >
+                    <option value="">Semua Blok</option>
+                  </select>
+                  <select
+                    id="uf-view"
+                    onchange="renderUnits()"
+                    style="
+                      padding: 6px 10px;
+                      border: 1.5px solid var(--border);
+                      border-radius: 7px;
+                      font-family: var(--sans);
+                      font-size: 12px;
+                      outline: none;
+                    "
+                  >
+                    <option value="grid">Grid</option>
+                    <option value="table">Tabel</option>
+                  </select>
+                </div>
+              </div>
+              <div id="unit-container"></div>
+            </div>
+          </div>
+
+          <!-- ══ 3. CRM ══ -->
+          <div class="page" id="page-crm">
+            <div
+              class="tabs"
+              style="
+                padding: 0 20px;
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: 12px 12px 0 0;
+                margin-bottom: 0;
+              "
+            >
+              <div class="tab active" onclick="switchCrmTab(this, 'crm-leads')">
+                📋 Semua Lead
+              </div>
+              <div class="tab" onclick="switchCrmTab(this, 'crm-pipeline')">
+                ▤ Pipeline
+              </div>
+              <div class="tab" onclick="switchCrmTab(this, 'crm-reminder')">
+                ⏰ Reminder
+              </div>
+            </div>
+            <div
+              class="card"
+              style="border-radius: 0 0 12px 12px; margin-bottom: 0"
+            >
+              <!-- leads tab -->
+              <div class="tab-pane active" id="crm-leads">
+                <div class="fbar">
+                  <input
+                    type="text"
+                    id="ls-q"
+                    placeholder="🔍  Nama, HP, unit..."
+                    oninput="renderLeads()"
+                  />
+                  <select id="ls-status" onchange="renderLeads()">
+                    <option value="">Semua Status</option>
+                    <option>Lead Baru</option>
+                    <option>Dihubungi</option>
+                    <option>Tertarik</option>
+                    <option>Survey Lokasi</option>
+                    <option>Booking</option>
+                    <option>KPR</option>
+                    <option>Closing</option>
+                    <option>Tidak Aktif</option>
+                    <option>Batal</option>
+                  </select>
+                  <select id="ls-src" onchange="renderLeads()">
+                    <option value="">Semua Sumber</option>
+                    <option>WA</option>
+                    <option>Facebook Ads</option>
+                    <option>TikTok</option>
+                    <option>Instagram</option>
+                    <option>Website</option>
+                    <option>Pameran</option>
+                    <option>Referral</option>
+                  </select>
+                  <select id="ls-sales" onchange="renderLeads()">
+                    <option value="">Semua Sales</option>
+                  </select>
+                </div>
+                <div class="tw">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nama</th>
+                        <th>HP</th>
+                        <th>Minat Unit</th>
+                        <th>Sumber</th>
+                        <th>Status</th>
+                        <th>Sales</th>
+                        <th>Masuk</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="leads-tb"></tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- pipeline tab -->
+              <div class="tab-pane" id="crm-pipeline">
+                <div style="padding: 16px">
+                  <div class="pipe-wrap" id="crm-pipe-wrap"></div>
+                </div>
+              </div>
+              <!-- reminder tab -->
+              <div class="tab-pane" id="crm-reminder">
+                <div style="padding: 16px; max-width: 680px">
+                  <div
+                    style="
+                      display: flex;
+                      gap: 10px;
+                      margin-bottom: 14px;
+                      align-items: center;
+                    "
+                  >
+                    <span style="font-size: 12px; color: var(--muted)"
+                      >Filter:</span
+                    >
+                    <select
+                      id="rf"
+                      onchange="renderReminders()"
+                      style="
+                        padding: 7px 11px;
+                        border: 1.5px solid var(--border);
+                        border-radius: 8px;
+                        font-family: var(--sans);
+                        font-size: 12.5px;
+                        outline: none;
+                      "
+                    >
+                      <option value="today">Hari Ini</option>
+                      <option value="upcoming">Upcoming</option>
+                      <option value="past">Lewat</option>
+                      <option value="all">Semua</option>
+                    </select>
+                  </div>
+                  <div id="reminder-list"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ 4. CICILAN ══ -->
+          <div class="page" id="page-cicilan">
+            <div class="sg sg-4" id="cicilan-stats"></div>
+            <div class="card">
+              <div class="fbar">
+                <input
+                  type="text"
+                  id="cq"
+                  placeholder="🔍  Nama customer..."
+                  oninput="renderCicilan()"
+                />
+                <select id="cf-status" onchange="renderCicilan()">
+                  <option value="">Semua Status</option>
+                  <option>Lunas</option>
+                  <option>Belum Bayar</option>
+                  <option>Telat</option>
+                </select>
+                <select id="cf-jenis" onchange="renderCicilan()">
+                  <option value="">Semua Jenis</option>
+                  <option>KPR</option>
+                  <option>Cash Bertahap</option>
+                  <option>Cash Keras</option>
+                </select>
+              </div>
+              <div class="tw">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Unit</th>
+                      <th>Jenis Bayar</th>
+                      <th>Total</th>
+                      <th>Terbayar</th>
+                      <th>Sisa</th>
+                      <th>Jatuh Tempo</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cicilan-tb"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ 5. DOKUMEN ══ -->
+          <div class="page" id="page-dokumen">
+            <div class="card">
+              <div class="fbar">
+                <input
+                  type="text"
+                  id="dq"
+                  placeholder="🔍  Nama customer..."
+                  oninput="renderDokumen()"
+                />
+                <select id="df-status" onchange="renderDokumen()">
+                  <option value="">Semua</option>
+                  <option>Lengkap</option>
+                  <option>Dalam Proses</option>
+                  <option>Kurang</option>
+                </select>
+              </div>
+              <div class="tw">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Unit</th>
+                      <th>KTP</th>
+                      <th>KK</th>
+                      <th>NPWP</th>
+                      <th>Slip Gaji</th>
+                      <th>Rek. Bank</th>
+                      <th>Akad</th>
+                      <th>Status Umum</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dokumen-tb"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ 6. KONSTRUKSI ══ -->
+          <div class="page" id="page-konstruksi">
+            <div class="sg sg-3" id="konstr-stats"></div>
+            <div class="g2">
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">Progress Per Cluster/Blok</span>
+                </div>
+                <div id="konstr-cluster"></div>
+              </div>
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">Progress Per Tahap</span>
+                </div>
+                <div id="konstr-tahap"></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-hd">
+                <span class="card-hd-title">Detail Progress Unit</span
+                ><button
+                  class="btn btn-gold btn-sm"
+                  onclick="openKonstrModal()"
+                >
+                  + Update Progress
+                </button>
+              </div>
+              <div class="tw">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Blok</th>
+                      <th>No Unit</th>
+                      <th>Tipe</th>
+                      <th>Tahap</th>
+                      <th>Progress</th>
+                      <th>Update Terakhir</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="konstr-tb"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ 7. APPROVAL ══ -->
+          <div class="page" id="page-approval">
+            <div class="tabs" style="padding: 0 2px; margin-bottom: 16px">
+              <div
+                class="tab active"
+                onclick="switchApprTab(this, 'ap-pending')"
+              >
+                ⏳ Pending
+              </div>
+              <div class="tab" onclick="switchApprTab(this, 'ap-selesai')">
+                ✅ Selesai
+              </div>
+              <div class="tab" onclick="switchApprTab(this, 'ap-semua')">
+                📋 Semua
+              </div>
+            </div>
+            <div class="tab-pane active" id="ap-pending">
+              <div id="appr-pending-list"></div>
+            </div>
+            <div class="tab-pane" id="ap-selesai">
+              <div id="appr-done-list"></div>
+            </div>
+            <div class="tab-pane" id="ap-semua">
+              <div id="appr-all-list"></div>
+            </div>
+          </div>
+
+          <!-- ══ TIM SALES ══ -->
+          <div class="page" id="page-tim">
+            <div class="g3" id="tim-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════ MODALS ════════════════════ -->
+
+    <!-- UNIT MODAL -->
+    <div class="overlay" id="modal-unit">
+      <div class="modal">
+        <div class="mh" id="unit-mh">Tambah Unit</div>
+        <input type="hidden" id="um-id" />
+        <div class="form-row">
+          <div class="fg">
+            <label>Blok</label
+            ><select id="um-blok">
+              <option>Blok A</option>
+              <option>Blok B</option>
+              <option>Blok C</option>
+              <option>Blok D</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Nomor Unit</label
+            ><input type="text" id="um-no" placeholder="01" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Tipe</label
+            ><select id="um-tipe">
+              <option>Tipe 36/72</option>
+              <option>Tipe 45/90</option>
+              <option>Tipe 60/120</option>
+              <option>Tipe 70/150</option>
+              <option>Kavling</option>
+              <option>Ruko</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Status</label
+            ><select id="um-status">
+              <option>Tersedia</option>
+              <option>Dipesan</option>
+              <option>Terjual</option>
+              <option>Inden</option>
+              <option>Blokir</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Harga (Rp)</label
+            ><input type="number" id="um-harga" placeholder="500000000" />
+          </div>
+          <div class="fg">
+            <label>Luas Tanah (m²)</label
+            ><input type="number" id="um-lt" placeholder="72" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Luas Bangunan (m²)</label
+            ><input type="number" id="um-lb" placeholder="36" />
+          </div>
+          <div class="fg">
+            <label>Fasilitas / Catatan</label
+            ><input
+              type="text"
+              id="um-catatan"
+              placeholder="Hadap selatan, hook"
+            />
+          </div>
+        </div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-unit')">Batal</button
+          ><button class="btn btn-primary" onclick="saveUnit()">
+            Simpan Unit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- UNIT DETAIL MODAL -->
+    <div class="overlay" id="modal-unit-detail">
+      <div class="modal">
+        <div class="mh" id="udm-title">Detail Unit</div>
+        <div id="udm-content"></div>
+        <div class="mfooter">
+          <button class="btn btn-danger btn-sm" id="udm-del">Hapus</button>
+          <button class="btn" onclick="closeModal('modal-unit-detail')">
+            Tutup
+          </button>
+          <button class="btn btn-primary" id="udm-edit">Edit Unit</button>
+          <button
+            class="btn btn-gold"
+            id="udm-booking"
+            onclick="openBookingRequest()"
+          >
+            + Ajukan Booking
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEAD MODAL -->
+    <div class="overlay" id="modal-lead">
+      <div class="modal">
+        <div class="mh" id="lead-mh">Tambah Lead</div>
+        <input type="hidden" id="lm-id" />
+        <div class="form-row">
+          <div class="fg">
+            <label>Nama Lengkap</label
+            ><input type="text" id="lm-nama" placeholder="Budi Santoso" />
+          </div>
+          <div class="fg">
+            <label>No. HP / WA</label
+            ><input type="text" id="lm-hp" placeholder="08123456789" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Email</label
+            ><input type="email" id="lm-email" placeholder="optional" />
+          </div>
+          <div class="fg">
+            <label>Minat Unit</label
+            ><select id="lm-unit">
+              <option value="">-- Pilih Tipe --</option>
+              <option>Tipe 36/72</option>
+              <option>Tipe 45/90</option>
+              <option>Tipe 60/120</option>
+              <option>Tipe 70/150</option>
+              <option>Kavling</option>
+              <option>Ruko</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Sumber</label
+            ><select id="lm-src">
+              <option>WA</option>
+              <option>Facebook Ads</option>
+              <option>TikTok</option>
+              <option>Instagram</option>
+              <option>Website</option>
+              <option>Pameran</option>
+              <option>Referral</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Assign Sales</label
+            ><select id="lm-sales"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label>Status</label
+            ><select id="lm-status">
+              <option>Lead Baru</option>
+              <option>Dihubungi</option>
+              <option>Tertarik</option>
+              <option>Survey Lokasi</option>
+              <option>Booking</option>
+              <option>KPR</option>
+              <option>Closing</option>
+              <option>Tidak Aktif</option>
+              <option>Batal</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Tanggal Masuk</label><input type="date" id="lm-tgl" />
+          </div>
+        </div>
+        <div class="fg">
+          <label>Catatan Awal</label
+          ><textarea id="lm-catatan" placeholder="Info tambahan..."></textarea>
+        </div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-lead')">Batal</button
+          ><button class="btn btn-primary" onclick="saveLead()">
+            Simpan Lead
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEAD DETAIL MODAL -->
+    <div class="overlay" id="modal-lead-detail">
+      <div class="modal modal-lg">
+        <div
+          id="ldm-header"
+          style="
+            background: var(--g1);
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin-bottom: 20px;
+          "
+        ></div>
+        <div class="tabs">
+          <div class="tab active" onclick="ldTab(this, 'ldt-info')">Info</div>
+          <div class="tab" onclick="ldTab(this, 'ldt-act')">Aktivitas</div>
+          <div class="tab" onclick="ldTab(this, 'ldt-rem')">Reminder</div>
+        </div>
+        <div class="tab-pane active" id="ldt-info">
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              align-items: center;
+              margin-bottom: 14px;
+              padding-bottom: 14px;
+              border-bottom: 1px solid var(--border);
+            "
+          >
+            <label
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                width: 70px;
+              "
+              >Status</label
+            >
+            <select
+              id="lds-status"
+              onchange="updateLead('status', this.value)"
+              style="
+                flex: 1;
+                padding: 9px 12px;
+                border: 1.5px solid var(--border);
+                border-radius: 8px;
+                font-family: var(--sans);
+                font-size: 13px;
+                outline: none;
+              "
+            >
+              <option>Lead Baru</option>
+              <option>Dihubungi</option>
+              <option>Tertarik</option>
+              <option>Survey Lokasi</option>
+              <option>Booking</option>
+              <option>KPR</option>
+              <option>Closing</option>
+              <option>Tidak Aktif</option>
+              <option>Batal</option>
+            </select>
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              align-items: center;
+              margin-bottom: 16px;
+              padding-bottom: 16px;
+              border-bottom: 1px solid var(--border);
+            "
+          >
+            <label
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                width: 70px;
+              "
+              >Sales</label
+            >
+            <select
+              id="lds-sales"
+              onchange="updateLead('sales_id', this.value)"
+              style="
+                flex: 1;
+                padding: 9px 12px;
+                border: 1.5px solid var(--border);
+                border-radius: 8px;
+                font-family: var(--sans);
+                font-size: 13px;
+                outline: none;
+              "
+            ></select>
+          </div>
+          <div class="form-row" id="ldm-info-grid"></div>
+        </div>
+        <div class="tab-pane" id="ldt-act">
+          <div
+            style="
+              background: #faf8f4;
+              border-radius: 10px;
+              padding: 13px;
+              margin-bottom: 14px;
+            "
+          >
+            <textarea
+              id="act-input"
+              placeholder="Catat aktivitas... (contoh: Sudah WA, customer minta brosur)"
+              style="
+                width: 100%;
+                padding: 9px 12px;
+                border: 1.5px solid var(--border);
+                border-radius: 8px;
+                font-family: var(--sans);
+                font-size: 13px;
+                resize: vertical;
+                min-height: 70px;
+                outline: none;
+                margin-bottom: 9px;
+              "
+            ></textarea>
+            <button class="btn btn-primary btn-sm" onclick="addActLog()">
+              + Catat
+            </button>
+          </div>
+          <div id="act-list-wrap"></div>
+        </div>
+        <div class="tab-pane" id="ldt-rem">
+          <div
+            style="
+              background: #faf8f4;
+              border-radius: 10px;
+              padding: 13px;
+              margin-bottom: 14px;
+            "
+          >
+            <div
+              style="
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                margin-bottom: 10px;
+              "
+            >
+              Set Reminder
+            </div>
+            <div style="display: flex; gap: 10px; margin-bottom: 9px">
+              <input
+                type="date"
+                id="rem-date"
+                style="
+                  padding: 9px 12px;
+                  border: 1.5px solid var(--border);
+                  border-radius: 8px;
+                  font-family: var(--sans);
+                  font-size: 13px;
+                  outline: none;
+                "
+              />
+              <input
+                type="text"
+                id="rem-note"
+                placeholder="Catatan reminder..."
+                style="
+                  flex: 1;
+                  padding: 9px 12px;
+                  border: 1.5px solid var(--border);
+                  border-radius: 8px;
+                  font-family: var(--sans);
+                  font-size: 13px;
+                  outline: none;
+                "
+              />
+            </div>
+            <button class="btn btn-gold btn-sm" onclick="addReminder()">
+              Simpan Reminder
+            </button>
+          </div>
+          <div id="rem-list-wrap"></div>
+        </div>
+        <div class="mfooter">
+          <button class="btn btn-danger btn-sm" onclick="deleteLead()">
+            Hapus Lead
+          </button>
+          <button class="btn" onclick="closeModal('modal-lead-detail')">
+            Tutup
+          </button>
+          <button class="btn btn-primary" onclick="openEditLead()">Edit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CICILAN DETAIL MODAL -->
+    <div class="overlay" id="modal-cicilan-detail">
+      <div class="modal modal-lg">
+        <div class="mh" id="cdm-title">Detail Cicilan</div>
+        <div
+          id="cdm-header"
+          style="
+            background: #f0f7f2;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+          "
+        ></div>
+        <div class="card-hd" style="padding: 0 0 12px; border: none">
+          <span class="card-hd-title">Riwayat Pembayaran</span>
+          <button class="btn btn-gold btn-sm" onclick="openAddPayment()">
+            + Catat Bayar
+          </button>
+        </div>
+        <div id="cdm-payments"></div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-cicilan-detail')">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD PAYMENT MODAL -->
+    <div class="overlay" id="modal-pay">
+      <div class="modal">
+        <div class="mh">Catat Pembayaran</div>
+        <input type="hidden" id="pm-cust-id" />
+        <div class="fg">
+          <label>Tanggal Bayar</label><input type="date" id="pm-tgl" />
+        </div>
+        <div class="fg">
+          <label>Jumlah (Rp)</label
+          ><input type="number" id="pm-jumlah" placeholder="5000000" />
+        </div>
+        <div class="fg">
+          <label>Keterangan</label
+          ><input
+            type="text"
+            id="pm-ket"
+            placeholder="Angsuran ke-1, DP, dsb."
+          />
+        </div>
+        <div class="fg">
+          <label>Metode Bayar</label
+          ><select id="pm-metode">
+            <option>Transfer Bank</option>
+            <option>Tunai</option>
+            <option>Cek/Giro</option>
+          </select>
+        </div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-pay')">Batal</button
+          ><button class="btn btn-success" onclick="savePayment()">
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOKUMEN DETAIL MODAL -->
+    <div class="overlay" id="modal-dok-detail">
+      <div class="modal">
+        <div class="mh" id="ddm-title">Dokumen Customer</div>
+        <div id="ddm-content"></div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-dok-detail')">
+            Tutup</button
+          ><button class="btn btn-primary" onclick="saveDokumen()">
+            Simpan Perubahan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KONSTRUKSI MODAL -->
+    <div class="overlay" id="modal-konstr">
+      <div class="modal">
+        <div class="mh">Update Progress Unit</div>
+        <div class="fg">
+          <label>Pilih Unit</label
+          ><select id="km-unit"></select>
+        </div>
+        <div class="fg">
+          <label>Tahap Konstruksi</label
+          ><select id="km-tahap">
+            <option>Persiapan Lahan</option>
+            <option>Pondasi</option>
+            <option>Struktur</option>
+            <option>Dinding & Atap</option>
+            <option>MEP (Listrik/Air)</option>
+            <option>Finishing Interior</option>
+            <option>Finishing Eksterior</option>
+            <option>Selesai</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Progress (%)</label
+          ><input
+            type="range"
+            id="km-pct"
+            min="0"
+            max="100"
+            step="5"
+            oninput="
+              document.getElementById('km-pct-val').textContent =
+                this.value + '%'
+            "
+            style="width: 100%; accent-color: var(--gold)"
+          />
+          <div
+            style="
+              text-align: center;
+              font-size: 14px;
+              font-weight: 700;
+              color: var(--g2);
+              margin-top: 4px;
+            "
+          >
+            <span id="km-pct-val">0%</span>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Catatan</label
+          ><textarea id="km-catatan" placeholder="Update kondisi..."></textarea>
+        </div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-konstr')">Batal</button
+          ><button class="btn btn-primary" onclick="saveKonstr()">
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPROVAL MODAL -->
+    <div class="overlay" id="modal-appr">
+      <div class="modal">
+        <div class="mh">Ajukan Approval</div>
+        <div class="fg">
+          <label>Jenis Approval</label
+          ><select id="apm-jenis">
+            <option>Booking Baru</option>
+            <option>Diskon Harga</option>
+            <option>Pengembalian Dana</option>
+            <option>Perubahan Harga</option>
+            <option>Relaksasi Cicilan</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Perihal / Detail</label
+          ><input
+            type="text"
+            id="apm-perihal"
+            placeholder="Deskripsi singkat..."
+          />
+        </div>
+        <div class="fg">
+          <label>Keterangan Lengkap</label
+          ><textarea
+            id="apm-ket"
+            placeholder="Jelaskan alasan dan detail..."
+          ></textarea>
+        </div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-appr')">Batal</button
+          ><button class="btn btn-gold" onclick="saveApproval()">
+            Ajukan →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPROVAL REVIEW MODAL (owner) -->
+    <div class="overlay" id="modal-appr-review">
+      <div class="modal">
+        <div class="mh" id="arvm-title">Review Approval</div>
+        <div id="arvm-body"></div>
+        <div class="fg">
+          <label>Catatan Review</label
+          ><textarea
+            id="arvm-note"
+            placeholder="Catatan approve/reject..."
+          ></textarea>
+        </div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-appr-review')">
+            Batal
+          </button>
+          <button class="btn btn-danger" onclick="reviewApproval('rejected')">
+            ✗ Reject
+          </button>
+          <button class="btn btn-success" onclick="reviewApproval('approved')">
+            ✓ Approve
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKING REQUEST MODAL -->
+    <div class="overlay" id="modal-booking">
+      <div class="modal">
+        <div class="mh">Ajukan Booking Unit</div>
+        <div
+          id="bm-unit-info"
+          style="
+            background: #f0f7f2;
+            border-radius: 9px;
+            padding: 13px 15px;
+            margin-bottom: 16px;
+            font-size: 13px;
+          "
+        ></div>
+        <input type="hidden" id="bm-unit-id" />
+        <div class="fg">
+          <label>Nama Calon Pembeli</label
+          ><input type="text" id="bm-nama" placeholder="Nama customer" />
+        </div>
+        <div class="fg">
+          <label>No. HP</label
+          ><input type="text" id="bm-hp" placeholder="08xxx" />
+        </div>
+        <div class="fg">
+          <label>Uang Booking (Rp)</label
+          ><input type="number" id="bm-booking" placeholder="5000000" />
+        </div>
+        <div class="fg">
+          <label>Jenis Pembayaran</label
+          ><select id="bm-jenis">
+            <option>KPR</option>
+            <option>Cash Bertahap</option>
+            <option>Cash Keras</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Sales</label
+          ><select id="bm-sales"></select>
+        </div>
+        <p style="font-size: 11.5px; color: var(--muted); margin-top: -8px">
+          Pengajuan ini akan dikirim sebagai Approval kepada Owner.
+        </p>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-booking')">
+            Batal</button
+          ><button class="btn btn-gold" onclick="submitBooking()">
+            Ajukan Booking
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ════════════════════════════════════════
+      //  UTILS
+      // ════════════════════════════════════════
+      const S = {
+        get: (k) => JSON.parse(localStorage.getItem("ps_" + k) || "null"),
+        set: (k, v) => localStorage.setItem("ps_" + k, JSON.stringify(v)),
+      };
+      const uid = () =>
+        Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      const fmtRp = (n) => Number(n).toLocaleString("id-ID");
+      const fmtD = (d) => {
+        if (!d) return "—";
+        try {
+          const x = new Date(d);
+          return x.toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+        } catch (e) {
+          return d;
+        }
+      };
+      const today = () => new Date().toISOString().split("T")[0];
+      const daysAgo = (n) => {
+        const d = new Date();
+        d.setDate(d.getDate() - n);
+        return d.toISOString().split("T")[0];
+      };
+      const daysLater = (n) => {
+        const d = new Date();
+        d.setDate(d.getDate() + n);
+        return d.toISOString().split("T")[0];
+      };
+      const el = (id) => document.getElementById(id);
+      const closeModal = (id) => el(id).classList.remove("open");
+
+      // ════════════════════════════════════════
+      //  SEED DATA
+      // ════════════════════════════════════════
+      function initSeed() {
+        if (S.get("seeded")) return;
+
+        S.set("users", [
+          {
+            id: "u1",
+            nama: "Hendra Wijaya",
+            email: "owner@prop.com",
+            pass: "123456",
+            role: "owner",
+          },
+          {
+            id: "u2",
+            nama: "Dewi Kusuma",
+            email: "admin@prop.com",
+            pass: "123456",
+            role: "admin",
+          },
+          {
+            id: "u3",
+            nama: "Andi Saputra",
+            email: "sales@prop.com",
+            pass: "123456",
+            role: "marketing",
+          },
+          {
+            id: "u4",
+            nama: "Budi Hartono",
+            email: "budi@prop.com",
+            pass: "123456",
+            role: "marketing",
+          },
+          {
+            id: "u5",
+            nama: "Sari Indah",
+            email: "sari@prop.com",
+            pass: "123456",
+            role: "marketing",
+          },
+        ]);
+
+        // UNITS
+        const bloks = ["Blok A", "Blok B", "Blok C"];
+        const tipes = ["Tipe 36/72", "Tipe 45/90", "Tipe 60/120"];
+        const statuses = [
+          "Tersedia",
+          "Tersedia",
+          "Tersedia",
+          "Dipesan",
+          "Terjual",
+          "Inden",
+        ];
+        const hargas = {
+          "Tipe 36/72": 380000000,
+          "Tipe 45/90": 550000000,
+          "Tipe 60/120": 780000000,
+        };
+        const units = [];
+        bloks.forEach((blok) => {
+          for (let i = 1; i <= 8; i++) {
+            const tipe = tipes[Math.floor(Math.random() * tipes.length)];
+            const st = statuses[Math.floor(Math.random() * statuses.length)];
+            units.push({
+              id: "un" + uid(),
+              blok,
+              no: String(i).padStart(2, "0"),
+              tipe,
+              status: st,
+              harga: hargas[tipe] + Math.floor(Math.random() * 5) * 5000000,
+              lt: tipe.includes("36") ? 72 : tipe.includes("45") ? 90 : 120,
+              lb: tipe.includes("36") ? 36 : tipe.includes("45") ? 45 : 60,
+              catatan: "",
+            });
+          }
+        });
+        // fix some known
+        units[0].status = "Tersedia";
+        units[1].status = "Terjual";
+        units[2].status = "Dipesan";
+        S.set("units", units);
+
+        // LEADS
+        const leads = [
+          {
+            id: "l1",
+            nama: "Faris Rahman",
+            hp: "081234567890",
+            email: "faris@mail.com",
+            unit: "Tipe 45/90",
+            sumber: "Facebook Ads",
+            status: "Tertarik",
+            sales_id: "u3",
+            created_at: daysAgo(5),
+            reminders: [
+              {
+                id: uid(),
+                date: daysLater(1),
+                note: "Follow up setelah survei",
+              },
+            ],
+          },
+          {
+            id: "l2",
+            nama: "Reni Susanti",
+            hp: "082345678901",
+            email: "reni@mail.com",
+            unit: "Tipe 36/72",
+            sumber: "TikTok",
+            status: "Survey Lokasi",
+            sales_id: "u4",
+            created_at: daysAgo(8),
+            reminders: [
+              { id: uid(), date: today(), note: "Konfirmasi jadwal akad" },
+            ],
+          },
+          {
+            id: "l3",
+            nama: "Dodi Permana",
+            hp: "083456789012",
+            email: "dodi@mail.com",
+            unit: "Tipe 60/120",
+            sumber: "Pameran",
+            status: "Booking",
+            sales_id: "u3",
+            created_at: daysAgo(15),
+            reminders: [],
+          },
+          {
+            id: "l4",
+            nama: "Maya Putri",
+            hp: "084567890123",
+            email: "maya@mail.com",
+            unit: "Tipe 36/72",
+            sumber: "Referral",
+            status: "Closing",
+            sales_id: "u5",
+            created_at: daysAgo(30),
+            reminders: [],
+          },
+          {
+            id: "l5",
+            nama: "Toni Wibowo",
+            hp: "085678901234",
+            email: "toni@mail.com",
+            unit: "Kavling",
+            sumber: "Instagram",
+            status: "KPR",
+            sales_id: "u4",
+            created_at: daysAgo(12),
+            reminders: [{ id: uid(), date: today(), note: "Cek progress KPR" }],
+          },
+          {
+            id: "l6",
+            nama: "Lisa Andriani",
+            hp: "086789012345",
+            email: "",
+            unit: "Tipe 45/90",
+            sumber: "Website",
+            status: "Dihubungi",
+            sales_id: "u5",
+            created_at: daysAgo(2),
+            reminders: [],
+          },
+          {
+            id: "l7",
+            nama: "Agus Setiawan",
+            hp: "087890123456",
+            email: "",
+            unit: "Ruko",
+            sumber: "WA",
+            status: "Lead Baru",
+            sales_id: "",
+            created_at: daysAgo(1),
+            reminders: [],
+          },
+          {
+            id: "l8",
+            nama: "Yuni Rahayu",
+            hp: "088901234567",
+            email: "yuni@mail.com",
+            unit: "Tipe 36/72",
+            sumber: "Facebook Ads",
+            status: "Tidak Aktif",
+            sales_id: "u3",
+            created_at: daysAgo(45),
+            reminders: [],
+          },
+          {
+            id: "l9",
+            nama: "Rizky Aditama",
+            hp: "089012345678",
+            email: "rizky@mail.com",
+            unit: "Tipe 60/120",
+            sumber: "TikTok",
+            status: "Closing",
+            sales_id: "u5",
+            created_at: daysAgo(20),
+            reminders: [],
+          },
+        ];
+        S.set("leads", leads);
+        S.set("activities", {
+          l1: [
+            {
+              id: uid(),
+              cat: "Sudah WA. Customer tertarik tipe 45.",
+              tgl: daysAgo(4),
+              by: "u3",
+              bynm: "Andi Saputra",
+            },
+            {
+              id: uid(),
+              cat: "Minta brosur dan simulasi KPR.",
+              tgl: daysAgo(3),
+              by: "u3",
+              bynm: "Andi Saputra",
+            },
+          ],
+          l2: [
+            {
+              id: uid(),
+              cat: "Jadwal survei hari Minggu.",
+              tgl: daysAgo(6),
+              by: "u4",
+              bynm: "Budi Hartono",
+            },
+            {
+              id: uid(),
+              cat: "Survei selesai. Customer suka lokasinya.",
+              tgl: daysAgo(4),
+              by: "u4",
+              bynm: "Budi Hartono",
+            },
+          ],
+          l4: [
+            {
+              id: uid(),
+              cat: "CLOSING ✅ Akad kredit selesai!",
+              tgl: daysAgo(25),
+              by: "u5",
+              bynm: "Sari Indah",
+            },
+          ],
+          l9: [
+            {
+              id: uid(),
+              cat: "CLOSING ✅ Customer sangat puas.",
+              tgl: daysAgo(15),
+              by: "u5",
+              bynm: "Sari Indah",
+            },
+          ],
+        });
+
+        // CUSTOMERS & CICILAN
+        S.set("customers", [
+          {
+            id: "c1",
+            nama: "Maya Putri",
+            hp: "084567890123",
+            unit_id: "unit-maya",
+            unit_label: "Blok A-03, Tipe 36/72",
+            jenis: "KPR",
+            total: 380000000,
+            terbayar: 80000000,
+            jatuh_tempo: daysLater(15),
+            status: "Belum Bayar",
+          },
+          {
+            id: "c2",
+            nama: "Rizky Aditama",
+            hp: "089012345678",
+            unit_id: "unit-rizky",
+            unit_label: "Blok B-05, Tipe 60/120",
+            jenis: "Cash Bertahap",
+            total: 780000000,
+            terbayar: 780000000,
+            jatuh_tempo: daysAgo(5),
+            status: "Lunas",
+          },
+          {
+            id: "c3",
+            nama: "Dodi Permana",
+            hp: "083456789012",
+            unit_id: "unit-dodi",
+            unit_label: "Blok A-07, Tipe 60/120",
+            jenis: "KPR",
+            total: 780000000,
+            terbayar: 50000000,
+            jatuh_tempo: daysAgo(10),
+            status: "Telat",
+          },
+          {
+            id: "c4",
+            nama: "Toni Wibowo",
+            hp: "085678901234",
+            unit_id: "unit-toni",
+            unit_label: "Blok C-02, Kavling",
+            jenis: "Cash Keras",
+            total: 450000000,
+            terbayar: 225000000,
+            jatuh_tempo: daysLater(30),
+            status: "Belum Bayar",
+          },
+        ]);
+        S.set("payments", {
+          c1: [
+            {
+              id: uid(),
+              tgl: daysAgo(60),
+              jumlah: 30000000,
+              ket: "DP Awal",
+              metode: "Transfer Bank",
+            },
+            {
+              id: uid(),
+              tgl: daysAgo(30),
+              jumlah: 50000000,
+              ket: "DP Kedua",
+              metode: "Transfer Bank",
+            },
+          ],
+          c2: [
+            {
+              id: uid(),
+              tgl: daysAgo(20),
+              jumlah: 780000000,
+              ket: "Pelunasan",
+              metode: "Transfer Bank",
+            },
+          ],
+          c3: [
+            {
+              id: uid(),
+              tgl: daysAgo(45),
+              jumlah: 50000000,
+              ket: "DP Booking",
+              metode: "Tunai",
+            },
+          ],
+          c4: [
+            {
+              id: uid(),
+              tgl: daysAgo(15),
+              jumlah: 225000000,
+              ket: "Bayar 50%",
+              metode: "Cek/Giro",
+            },
+          ],
+        });
+
+        // DOCUMENTS
+        S.set("dokumen", [
+          {
+            id: "d1",
+            customer_id: "c1",
+            nama: "Maya Putri",
+            unit_label: "Blok A-03, Tipe 36/72",
+            ktp: "Lengkap",
+            kk: "Lengkap",
+            npwp: "Dalam Proses",
+            slip: "Lengkap",
+            rek: "Lengkap",
+            akad: "Kurang",
+            status: "Dalam Proses",
+            catatan: "NPWP masih menunggu dari kantor pajak.",
+          },
+          {
+            id: "d2",
+            customer_id: "c2",
+            nama: "Rizky Aditama",
+            unit_label: "Blok B-05, Tipe 60/120",
+            ktp: "Lengkap",
+            kk: "Lengkap",
+            npwp: "Lengkap",
+            slip: "Lengkap",
+            rek: "Lengkap",
+            akad: "Lengkap",
+            status: "Lengkap",
+            catatan: "",
+          },
+          {
+            id: "d3",
+            customer_id: "c3",
+            nama: "Dodi Permana",
+            unit_label: "Blok A-07, Tipe 60/120",
+            ktp: "Kurang",
+            kk: "Dalam Proses",
+            npwp: "Kurang",
+            slip: "Kurang",
+            rek: "Kurang",
+            akad: "Kurang",
+            status: "Kurang",
+            catatan: "Customer belum submit dokumen.",
+          },
+          {
+            id: "d4",
+            customer_id: "c4",
+            nama: "Toni Wibowo",
+            unit_label: "Blok C-02, Kavling",
+            ktp: "Lengkap",
+            kk: "Lengkap",
+            npwp: "Dalam Proses",
+            slip: "Dalam Proses",
+            rek: "Lengkap",
+            akad: "Kurang",
+            status: "Dalam Proses",
+            catatan: "Menunggu slip gaji terbaru.",
+          },
+        ]);
+
+        // KONSTRUKSI
+        const allUnits = S.get("units");
+        const konstr = allUnits.slice(0, 12).map((u, i) => ({
+          id: "k" + u.id,
+          unit_id: u.id,
+          blok: u.blok,
+          no: u.no,
+          tipe: u.tipe,
+          tahap: [
+            "Persiapan Lahan",
+            "Pondasi",
+            "Struktur",
+            "Dinding & Atap",
+            "MEP (Listrik/Air)",
+            "Finishing Interior",
+            "Finishing Eksterior",
+            "Selesai",
+          ][Math.floor(i / 1.5) % 8],
+          pct: Math.min(100, Math.floor((i + 1) * 8.5)),
+          updated_at: daysAgo(Math.floor(Math.random() * 10)),
+          catatan: "",
+        }));
+        S.set("konstruksi", konstr);
+
+        // APPROVALS
+        S.set("approvals", [
+          {
+            id: "a1",
+            jenis: "Booking Baru",
+            perihal: "Booking Unit Blok A-04 oleh Faris Rahman",
+            ket: "Customer siap bayar DP 10 juta. Mohon persetujuan.",
+            status: "pending",
+            by: "u3",
+            bynm: "Andi Saputra",
+            created_at: daysAgo(2),
+            review_note: "",
+            reviewed_by: "",
+            reviewed_at: "",
+          },
+          {
+            id: "a2",
+            jenis: "Diskon Harga",
+            perihal: "Diskon 5% untuk Dodi Permana",
+            ket: "Customer mengancam batal jika tidak ada diskon. Properti sudah 45 hari di pipeline.",
+            status: "pending",
+            by: "u4",
+            bynm: "Budi Hartono",
+            created_at: daysAgo(1),
+            review_note: "",
+            reviewed_by: "",
+            reviewed_at: "",
+          },
+          {
+            id: "a3",
+            jenis: "Relaksasi Cicilan",
+            perihal: "Minta kelonggaran cicilan Toni Wibowo",
+            ket: "Customer terkena PHK, minta cicilan ditunda 2 bulan.",
+            status: "approved",
+            by: "u5",
+            bynm: "Sari Indah",
+            created_at: daysAgo(7),
+            review_note: "Disetujui dengan syarat ada surat keterangan.",
+            reviewed_by: "u1",
+            reviewed_at: daysAgo(5),
+          },
+          {
+            id: "a4",
+            jenis: "Perubahan Harga",
+            perihal: "Update harga Tipe 60/120 naik 3%",
+            ket: "Harga material naik. Perlu penyesuaian harga per blok C.",
+            status: "rejected",
+            by: "u2",
+            bynm: "Dewi Kusuma",
+            created_at: daysAgo(10),
+            review_note: "Tunda dulu, sedang ada promo.",
+            reviewed_by: "u1",
+            reviewed_at: daysAgo(8),
+          },
+        ]);
+
+        S.set("seeded", true);
+      }
+      initSeed();
+
+      // ════════════════════════════════════════
+      //  AUTH
+      // ════════════════════════════════════════
+      let CU = null; // current user
+
+      function doLogin() {
+        const email = el("l-email").value.trim(),
+          pass = el("l-pass").value;
+        const user = (S.get("users") || []).find(
+          (u) => u.email === email && u.pass === pass,
+        );
+        if (!user) {
+          el("lerr").style.display = "block";
+          return;
+        }
+        CU = user;
+        sessionStorage.setItem("ps_sess", JSON.stringify(user));
+        el("login-screen").classList.add("hidden");
+        bootApp();
+      }
+      function doLogout() {
+        sessionStorage.removeItem("ps_sess");
+        CU = null;
+        el("login-screen").classList.remove("hidden");
+        el("l-email").value = "";
+        el("l-pass").value = "";
+      }
+      (function autoLogin() {
+        const s = sessionStorage.getItem("ps_sess");
+        if (s) {
+          CU = JSON.parse(s);
+          el("login-screen").classList.add("hidden");
+          bootApp();
+        }
+      })();
+
+      function bootApp() {
+        el("sb-av").textContent = CU.nama.charAt(0);
+        el("sb-nm").textContent = CU.nama;
+        el("sb-rl").textContent = CU.role;
+        // hide/show role-based elements
+        document
+          .querySelectorAll(".ro-owner")
+          .forEach(
+            (e) =>
+              (e.style.display =
+                CU.role === "owner" || CU.role === "admin" ? "" : "none"),
+          );
+        // marketing: hide dash, go to crm
+        if (CU.role === "marketing") {
+          el("nav-dash").style.display = "none";
+          go("crm", el("nav-crm"));
+        } else {
+          go("dash", el("nav-dash"));
+        }
+        fillSalesDropdowns();
+        refreshApprBadge();
+      }
+
+      function getSales() {
+        return (S.get("users") || []).filter((u) => u.role === "marketing");
+      }
+      function userName(id) {
+        const u = (S.get("users") || []).find((x) => x.id === id);
+        return u ? u.nama : "—";
+      }
+
+      function fillSalesDropdowns() {
+        const sales = getSales();
+        const base =
+          `<option value="">-- Pilih Sales --</option>` +
+          sales
+            .map((u) => `<option value="${u.id}">${u.nama}</option>`)
+            .join("");
+        ["lm-sales", "lds-sales", "bm-sales"].forEach((id) => {
+          if (el(id)) el(id).innerHTML = base;
+        });
+        const filt =
+          `<option value="">Semua Sales</option>` +
+          sales
+            .map((u) => `<option value="${u.id}">${u.nama}</option>`)
+            .join("");
+        if (el("ls-sales")) el("ls-sales").innerHTML = filt;
+      }
+
+      // ════════════════════════════════════════
+      //  NAV
+      // ════════════════════════════════════════
+      const PAGE_TITLE = {
+        dash: "Dashboard Eksekutif",
+        unit: "Stok Unit & Booking",
+        crm: "CRM & Lead Management",
+        cicilan: "Cicilan & Pembayaran",
+        dokumen: "Dokumen Customer",
+        konstruksi: "Progress Pembangunan",
+        approval: "Approval Internal",
+        tim: "Tim Sales",
+      };
+      const PAGE_BTN = {
+        dash: null,
+        unit: { label: "+ Tambah Unit", fn: () => openUnitModal() },
+        crm: { label: "+ Tambah Lead", fn: () => openLeadModal() },
+        cicilan: null,
+        dokumen: null,
+        konstruksi: { label: "+ Update Progress", fn: () => openKonstrModal() },
+        approval: {
+          label: "+ Ajukan Approval",
+          fn: () => el("modal-appr").classList.add("open"),
+        },
+        tim: null,
+      };
+
+      function go(page, navEl) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".ni")
+          .forEach((n) => n.classList.remove("active"));
+        el("page-" + page)?.classList.add("active");
+        navEl?.classList.add("active");
+        el("topbar-title").textContent = PAGE_TITLE[page] || page;
+        const btn = PAGE_BTN[page];
+        el("topbar-actions").innerHTML = btn
+          ? `<button class="btn btn-gold" onclick="(${btn.fn.toString()})()">${btn.label}</button>`
+          : page === "approval" && CU.role !== "owner"
+            ? `<button class="btn btn-gold" onclick="el('modal-appr').classList.add('open')">+ Ajukan Approval</button>`
+            : "";
+
+        if (page === "dash") renderDash();
+        if (page === "unit") renderUnits();
+        if (page === "crm") {
+          fillSalesDropdowns();
+          renderLeads();
+          renderReminders();
+        }
+        if (page === "cicilan") renderCicilan();
+        if (page === "dokumen") renderDokumen();
+        if (page === "konstruksi") renderKonstruksi();
+        if (page === "approval") renderApprovals();
+        if (page === "tim") renderTim();
+      }
+
+      // ════════════════════════════════════════
+      //  BADGE HELPERS
+      // ════════════════════════════════════════
+      const UNIT_STATUS_BADGE = {
+        Tersedia: "bs-tersedia",
+        Dipesan: "bs-dipesan",
+        Terjual: "bs-terjual",
+        Inden: "bs-inden",
+        Blokir: "bs-blokir",
+      };
+      const LEAD_STATUS_BADGE = {
+        "Lead Baru": "bl-baru",
+        Dihubungi: "bl-dihubungi",
+        Tertarik: "bl-tertarik",
+        "Survey Lokasi": "bl-survey",
+        Booking: "bl-booking",
+        KPR: "bl-kpr",
+        Closing: "bl-closing",
+        "Tidak Aktif": "bl-dead",
+        Batal: "bl-dead",
+      };
+      const SRC_BADGE = {
+        WA: "bsrc-wa",
+        "Facebook Ads": "bsrc-fb",
+        TikTok: "bsrc-tt",
+        Instagram: "bsrc-ig",
+        Website: "bsrc-web",
+        Pameran: "bsrc-pameran",
+        Referral: "bsrc-referral",
+      };
+      const PAY_BADGE = {
+        Lunas: "bp-lunas",
+        "Belum Bayar": "bp-belum",
+        Telat: "bp-telat",
+      };
+      const DOC_BADGE = {
+        Lengkap: "bd-lengkap",
+        "Dalam Proses": "bd-proses",
+        Kurang: "bd-kurang",
+        "—": "bd-missing",
+      };
+      const APPR_BADGE = {
+        pending: "ba-pending",
+        approved: "ba-approved",
+        rejected: "ba-rejected",
+      };
+      const bdg = (t, c) => `<span class="badge ${c}">${t}</span>`;
+
+      // ════════════════════════════════════════
+      //  1. DASHBOARD
+      // ════════════════════════════════════════
+      function renderDash() {
+        const units = S.get("units") || [],
+          leads = S.get("leads") || [],
+          customers = S.get("customers") || [];
+        const approvals = S.get("approvals") || [];
+        const terjual = units.filter((u) => u.status === "Terjual").length;
+        const tersedia = units.filter((u) => u.status === "Tersedia").length;
+        const closing = leads.filter((l) => l.status === "Closing").length;
+        const totalRev = customers
+          .filter((c) => c.status === "Lunas")
+          .reduce((s, c) => s + c.total, 0);
+        const pending = approvals.filter((a) => a.status === "pending").length;
+        el("dash-stats").innerHTML = `
+    <div class="scard"><div class="scard-bar" style="background:var(--gold)"></div><div class="scard-lbl">Total Unit</div><div class="scard-val">${units.length}</div><div class="scard-sub">${terjual} terjual · ${tersedia} tersedia</div><div class="scard-icon">🏠</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--green)"></div><div class="scard-lbl">Total Lead</div><div class="scard-val">${leads.length}</div><div class="scard-sub">${closing} closing (${leads.length ? Math.round((closing / leads.length) * 100) : 0}% rate)</div><div class="scard-icon">👥</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--blue)"></div><div class="scard-lbl">Revenue Terkumpul</div><div class="scard-val" style="font-size:22px">Rp ${fmtRp(totalRev)}</div><div class="scard-sub">${customers.filter((c) => c.status === "Lunas").length} customer lunas</div><div class="scard-icon">💰</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--red)"></div><div class="scard-lbl">Approval Pending</div><div class="scard-val">${pending}</div><div class="scard-sub">${approvals.length} total approval</div><div class="scard-icon">✅</div></div>
+  `;
+        // unit bars
+        const bloks = [...new Set(units.map((u) => u.blok))];
+        el("dash-unit-bars").innerHTML = bloks
+          .map((b) => {
+            const bu = units.filter((u) => u.blok === b);
+            const tv = bu.filter((u) => u.status === "Terjual").length;
+            const dp = bu.filter((u) => u.status === "Dipesan").length;
+            const ts = bu.filter((u) => u.status === "Tersedia").length;
+            return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12.5px"><strong>${b}</strong><span style="color:var(--muted)">${tv}/${bu.length} terjual</span></div>
+    <div style="display:flex;height:12px;border-radius:99px;overflow:hidden;gap:1px">
+      <div style="width:${(tv / bu.length) * 100}%;background:var(--g3);" title="Terjual"></div>
+      <div style="width:${(dp / bu.length) * 100}%;background:var(--gold);" title="Dipesan"></div>
+      <div style="width:${(ts / bu.length) * 100}%;background:var(--border);" title="Tersedia"></div>
+    </div><div style="display:flex;gap:14px;margin-top:5px;font-size:10.5px;color:var(--muted)">
+      <span>■ Terjual ${tv}</span><span style="color:#c9a84c">■ Dipesan ${dp}</span><span>■ Tersedia ${ts}</span></div></div>`;
+          })
+          .join("");
+        // source breakdown
+        const SRCS = [
+          "WA",
+          "Facebook Ads",
+          "TikTok",
+          "Instagram",
+          "Website",
+          "Pameran",
+          "Referral",
+        ];
+        const sc = {};
+        SRCS.forEach((s) => (sc[s] = 0));
+        leads.forEach((l) => {
+          if (sc[l.sumber] !== undefined) sc[l.sumber]++;
+        });
+        const mx = Math.max(...Object.values(sc), 1);
+        el("dash-src").innerHTML = SRCS.map(
+          (s) =>
+            `<div class="src-row"><div class="src-name">${s}</div><div class="src-bw"><div class="src-bf" style="width:${(sc[s] / mx) * 100}%"></div></div><div class="src-n">${sc[s]}</div></div>`,
+        ).join("");
+        // leaderboard
+        const sales = getSales();
+        const allLeads = S.get("leads") || [];
+        const ld = sales
+          .map((u) => {
+            const ml = allLeads.filter((l) => l.sales_id === u.id);
+            return {
+              u,
+              total: ml.length,
+              closing: ml.filter((l) => l.status === "Closing").length,
+            };
+          })
+          .sort((a, b) => b.closing - a.closing);
+        el("dash-leader").innerHTML = ld.length
+          ? ld
+              .map(
+                (d, i) =>
+                  `<div class="ldr-row"><div class="ldr-rank ${i === 0 ? "r1" : ""}">${i + 1}</div><div class="ldr-name">${d.u.nama}</div><div class="ldr-stat">${d.total} lead</div><div class="ldr-val">${d.closing} closing</div></div>`,
+              )
+              .join("")
+          : '<div class="empty">Belum ada data.</div>';
+        // pending approvals widget
+        const pend = (S.get("approvals") || []).filter(
+          (a) => a.status === "pending",
+        );
+        el("dash-approvals").innerHTML = pend.length
+          ? pend
+              .slice(0, 4)
+              .map(
+                (a) => `
+    <div style="padding:12px 18px;border-bottom:1px solid var(--border);cursor:pointer" onclick="openApprReview('${a.id}')">
+      <div style="font-size:13px;font-weight:700">${a.perihal}</div>
+      <div style="font-size:11.5px;color:var(--muted);margin-top:3px">${a.jenis} · ${a.bynm} · ${fmtD(a.created_at)}</div>
+    </div>`,
+              )
+              .join("")
+          : '<div class="empty">Tidak ada approval pending.</div>';
+      }
+
+      // ════════════════════════════════════════
+      //  2. STOK UNIT
+      // ════════════════════════════════════════
+      let currentUnitId = null;
+      function renderUnits() {
+        const units = S.get("units") || [];
+        const fs = el("uf-status")?.value || "",
+          fb = el("uf-blok")?.value || "",
+          view = el("uf-view")?.value || "grid";
+        // populate blok filter
+        const bloks = [...new Set(units.map((u) => u.blok))].sort();
+        const bv = el("uf-blok").value;
+        el("uf-blok").innerHTML =
+          `<option value="">Semua Blok</option>` +
+          bloks
+            .map((b) => `<option${bv === b ? " selected" : ""}>${b}</option>`)
+            .join("");
+        let filtered = units;
+        if (fs) filtered = filtered.filter((u) => u.status === fs);
+        if (fb) filtered = filtered.filter((u) => u.blok === fb);
+        if (view === "grid") {
+          el("unit-container").innerHTML = `<div class="unit-grid">${filtered
+            .map(
+              (u) => `
+      <div class="unit-card uc-${u.status.toLowerCase().replace(" ", "-")}" onclick="openUnitDetail('${u.id}')">
+        <div class="uc-blok">${u.blok}</div>
+        <div class="uc-no">No. ${u.no}</div>
+        <div class="uc-tipe">${u.tipe} · ${u.lt}/${u.lb} m²</div>
+        <div class="uc-harga">Rp ${fmtRp(u.harga)}</div>
+        ${bdg(u.status, UNIT_STATUS_BADGE[u.status] || "bs-blokir")}
+      </div>`,
+            )
+            .join("")}</div>`;
+        } else {
+          el("unit-container").innerHTML = `<div class="tw"><table><thead><tr>
+      <th>Blok</th><th>No.</th><th>Tipe</th><th>LT/LB</th><th>Harga</th><th>Status</th><th>Aksi</th>
+    </tr></thead><tbody>${filtered
+      .map(
+        (u) => `<tr>
+      <td>${u.blok}</td><td><strong>${u.no}</strong></td><td>${u.tipe}</td>
+      <td class="tsub">${u.lt}/${u.lb} m²</td>
+      <td style="font-weight:700">Rp ${fmtRp(u.harga)}</td>
+      <td>${bdg(u.status, UNIT_STATUS_BADGE[u.status] || "bs-blokir")}</td>
+      <td><button class="btn btn-sm" onclick="openUnitDetail('${u.id}')">Detail</button></td>
+    </tr>`,
+      )
+      .join("")}</tbody></table></div>`;
+        }
+      }
+      function openUnitModal(id) {
+        el("um-id").value = id || "";
+        el("unit-mh").textContent = id ? "Edit Unit" : "Tambah Unit";
+        if (id) {
+          const u = (S.get("units") || []).find((x) => x.id === id);
+          if (u) {
+            el("um-blok").value = u.blok;
+            el("um-no").value = u.no;
+            el("um-tipe").value = u.tipe;
+            el("um-status").value = u.status;
+            el("um-harga").value = u.harga;
+            el("um-lt").value = u.lt;
+            el("um-lb").value = u.lb;
+            el("um-catatan").value = u.catatan;
+          }
+        } else {
+          el("um-blok").value = "Blok A";
+          el("um-no").value = "";
+          el("um-tipe").value = "Tipe 36/72";
+          el("um-status").value = "Tersedia";
+          el("um-harga").value = "";
+          el("um-lt").value = "";
+          el("um-lb").value = "";
+          el("um-catatan").value = "";
+        }
+        el("modal-unit").classList.add("open");
+      }
+      function saveUnit() {
+        const id = el("um-id").value;
+        const d = {
+          blok: el("um-blok").value,
+          no: el("um-no").value.trim(),
+          tipe: el("um-tipe").value,
+          status: el("um-status").value,
+          harga: Number(el("um-harga").value) || 0,
+          lt: Number(el("um-lt").value) || 0,
+          lb: Number(el("um-lb").value) || 0,
+          catatan: el("um-catatan").value.trim(),
+        };
+        if (!d.no) return alert("Nomor unit wajib!");
+        let units = S.get("units") || [];
+        if (id) units = units.map((u) => (u.id === id ? { ...u, ...d } : u));
+        else units.push({ id: "un" + uid(), ...d });
+        S.set("units", units);
+        closeModal("modal-unit");
+        renderUnits();
+      }
+      function openUnitDetail(id) {
+        currentUnitId = id;
+        const u = (S.get("units") || []).find((x) => x.id === id);
+        if (!u) return;
+        el("udm-title").textContent = `${u.blok} — Unit ${u.no}`;
+        el("udm-content").innerHTML = `
+    <div class="g2" style="margin-bottom:14px">
+      <div><div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Status</div>${bdg(u.status, UNIT_STATUS_BADGE[u.status] || "bs-blokir")}</div>
+      <div><div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Harga</div><strong style="font-size:16px">Rp ${fmtRp(u.harga)}</strong></div>
+      <div><div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Tipe</div><span>${u.tipe}</span></div>
+      <div><div style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">LT / LB</div><span>${u.lt} m² / ${u.lb} m²</span></div>
+    </div>
+    ${u.catatan ? `<div style="background:#faf8f4;border-radius:8px;padding:11px 13px;font-size:13px;color:var(--muted)">${u.catatan}</div>` : ""}
+  `;
+        el("udm-edit").onclick = () => {
+          closeModal("modal-unit-detail");
+          openUnitModal(id);
+        };
+        el("udm-del").onclick = () => {
+          if (confirm("Hapus unit ini?")) {
+            S.set(
+              "units",
+              (S.get("units") || []).filter((x) => x.id !== id),
+            );
+            closeModal("modal-unit-detail");
+            renderUnits();
+          }
+        };
+        el("udm-booking").style.display =
+          u.status === "Tersedia" || u.status === "Inden" ? "" : "none";
+        el("modal-unit-detail").classList.add("open");
+      }
+      function openBookingRequest() {
+        const u = (S.get("units") || []).find((x) => x.id === currentUnitId);
+        if (!u) return;
+        el("bm-unit-id").value = u.id;
+        el("bm-unit-info").innerHTML =
+          `<strong>${u.blok} — No. ${u.no}</strong> · ${u.tipe} · Rp ${fmtRp(u.harga)}`;
+        el("bm-nama").value = "";
+        el("bm-hp").value = "";
+        el("bm-booking").value = "";
+        fillSalesDropdowns();
+        closeModal("modal-unit-detail");
+        el("modal-booking").classList.add("open");
+      }
+      function submitBooking() {
+        const uid_ = el("bm-unit-id").value,
+          nama = el("bm-nama").value.trim(),
+          hp = el("bm-hp").value.trim();
+        if (!nama || !hp) return alert("Nama dan HP wajib!");
+        const u = (S.get("units") || []).find((x) => x.id === uid_);
+        const a = {
+          id: "a" + uid(),
+          jenis: "Booking Baru",
+          perihal: `Booking ${u?.blok} No.${u?.no} oleh ${nama}`,
+          ket: `HP: ${hp}\nJenis: ${el("bm-jenis").value}\nDP: Rp ${fmtRp(el("bm-booking").value || 0)}\nSales: ${userName(el("bm-sales").value)}`,
+          status: "pending",
+          by: CU.id,
+          bynm: CU.nama,
+          created_at: today(),
+          review_note: "",
+          reviewed_by: "",
+          reviewed_at: "",
+        };
+        const approvals = S.get("approvals") || [];
+        approvals.unshift(a);
+        S.set("approvals", approvals);
+        refreshApprBadge();
+        closeModal("modal-booking");
+        alert("Booking berhasil diajukan. Menunggu persetujuan Owner.");
+      }
+
+      // ════════════════════════════════════════
+      //  3. CRM
+      // ════════════════════════════════════════
+      const PIPE_STAGES = [
+        "Lead Baru",
+        "Dihubungi",
+        "Tertarik",
+        "Survey Lokasi",
+        "Booking",
+        "KPR",
+        "Closing",
+        "Tidak Aktif",
+        "Batal",
+      ];
+      const PIPE_COLORS = {
+        "Lead Baru": "#6b7280",
+        Dihubungi: "#2980b9",
+        Tertarik: "#e67e22",
+        "Survey Lokasi": "#8e44ad",
+        Booking: "#16a2b8",
+        KPR: "#d4820a",
+        Closing: "#27ae60",
+        "Tidak Aktif": "#9ca3af",
+        Batal: "#c0392b",
+      };
+
+      function getMyLeads() {
+        const all = S.get("leads") || [];
+        return CU.role === "marketing"
+          ? all.filter((l) => l.sales_id === CU.id)
+          : all;
+      }
+
+      function renderLeads() {
+        const q = (el("ls-q")?.value || "").toLowerCase(),
+          fst = el("ls-status")?.value || "",
+          fsrc = el("ls-src")?.value || "",
+          fsl = el("ls-sales")?.value || "";
+        let leads = getMyLeads();
+        if (q)
+          leads = leads.filter((l) =>
+            `${l.nama}${l.hp}${l.unit}`.toLowerCase().includes(q),
+          );
+        if (fst) leads = leads.filter((l) => l.status === fst);
+        if (fsrc) leads = leads.filter((l) => l.sumber === fsrc);
+        if (fsl) leads = leads.filter((l) => l.sales_id === fsl);
+        leads.sort((a, b) => b.created_at.localeCompare(a.created_at));
+        el("leads-tb").innerHTML = leads.length
+          ? leads
+              .map(
+                (l) => `<tr>
+    <td class="tname" style="cursor:pointer;color:var(--g2)" onclick="openLeadDetail('${l.id}')">${l.nama}</td>
+    <td class="tsub">${l.hp}</td><td>${l.unit || "—"}</td>
+    <td>${bdg(l.sumber, SRC_BADGE[l.sumber] || "")}</td>
+    <td>${bdg(l.status, LEAD_STATUS_BADGE[l.status] || "bl-dead")}</td>
+    <td style="font-size:12px">${l.sales_id ? userName(l.sales_id) : '<em style="color:var(--muted)">belum assign</em>'}</td>
+    <td class="tsub">${fmtD(l.created_at)}</td>
+    <td><button class="btn btn-sm" onclick="openLeadDetail('${l.id}')">Detail →</button></td>
+  </tr>`,
+              )
+              .join("")
+          : `<tr><td colspan="8" class="empty">Tidak ada lead.</td></tr>`;
+        renderPipeline();
+      }
+
+      function renderPipeline() {
+        const leads = getMyLeads();
+        el("crm-pipe-wrap").innerHTML = PIPE_STAGES.map((stage) => {
+          const sl = leads.filter((l) => l.status === stage);
+          return `<div class="pipe-col">
+      <div class="pipe-hd" style="background:${PIPE_COLORS[stage]}">${stage}<span>${sl.length}</span></div>
+      <div class="pipe-body">${
+        sl.length
+          ? sl
+              .map(
+                (l) => `<div class="pcard" onclick="openLeadDetail('${l.id}')">
+        <div class="pcard-name">${l.nama}</div>
+        <div class="pcard-unit">${l.unit || "—"}</div>
+        <div class="pcard-sales">${l.sales_id ? userName(l.sales_id) : "Unassigned"}</div>
+      </div>`,
+              )
+              .join("")
+          : '<div style="font-size:11px;color:var(--muted);padding:8px;text-align:center">Kosong</div>'
+      }</div>
+    </div>`;
+        }).join("");
+      }
+
+      function renderReminders() {
+        const filter = el("rf")?.value || "today",
+          tod = today();
+        const items = [];
+        getMyLeads().forEach((l) =>
+          (l.reminders || []).forEach((r) =>
+            items.push({ ...r, leadNama: l.nama, leadId: l.id }),
+          ),
+        );
+        let filtered = items;
+        if (filter === "today") filtered = items.filter((r) => r.date === tod);
+        if (filter === "upcoming") filtered = items.filter((r) => r.date > tod);
+        if (filter === "past") filtered = items.filter((r) => r.date < tod);
+        filtered.sort((a, b) => a.date.localeCompare(b.date));
+        el("reminder-list").innerHTML = filtered.length
+          ? filtered
+              .map(
+                (r) => `
+    <div class="rem-card ${r.date < tod ? "past" : ""}">
+      <div style="font-size:20px;margin-top:2px">${r.date < tod ? "⚠️" : "⏰"}</div>
+      <div class="rem-body">
+        <div class="rem-lead" onclick="openLeadDetail('${r.leadId}')">${r.leadNama}</div>
+        <div class="rem-note">${r.note || "(tidak ada catatan)"}</div>
+        <div class="rem-date">${fmtD(r.date)}${r.date === tod ? ' · <strong style="color:var(--gold)">HARI INI</strong>' : ""}</div>
+      </div>
+    </div>`,
+              )
+              .join("")
+          : '<div class="empty"><div class="empty-icon">⏰</div>Tidak ada reminder untuk filter ini.</div>';
+      }
+
+      function updateReminderBadge() {
+        const tod = today(),
+          leads = getMyLeads();
+        let cnt = 0;
+        leads.forEach((l) =>
+          (l.reminders || []).forEach((r) => {
+            if (r.date === tod) cnt++;
+          }),
+        );
+        el("appr-badge");
+      }
+      function refreshApprBadge() {
+        const cnt = (S.get("approvals") || []).filter(
+          (a) => a.status === "pending",
+        ).length;
+        const b = el("appr-badge");
+        if (b) {
+          b.style.display = cnt ? "inline" : "none";
+          b.textContent = cnt;
+        }
+      }
+
+      // lead modal
+      function openLeadModal(id) {
+        fillSalesDropdowns();
+        el("lm-id").value = id || "";
+        el("lead-mh").textContent = id ? "Edit Lead" : "Tambah Lead Baru";
+        if (id) {
+          const l = (S.get("leads") || []).find((x) => x.id === id);
+          if (l) {
+            el("lm-nama").value = l.nama;
+            el("lm-hp").value = l.hp;
+            el("lm-email").value = l.email || "";
+            el("lm-unit").value = l.unit || "";
+            el("lm-src").value = l.sumber;
+            el("lm-sales").value = l.sales_id || "";
+            el("lm-status").value = l.status;
+            el("lm-tgl").value = l.created_at;
+            el("lm-catatan").value = "";
+          }
+        } else {
+          ["lm-nama", "lm-hp", "lm-email", "lm-catatan"].forEach(
+            (k) => (el(k).value = ""),
+          );
+          el("lm-unit").value = "";
+          el("lm-src").value = "WA";
+          el("lm-status").value = "Lead Baru";
+          el("lm-tgl").value = today();
+          el("lm-sales").value = CU.role === "marketing" ? CU.id : "";
+        }
+        el("modal-lead").classList.add("open");
+      }
+      function saveLead() {
+        const id = el("lm-id").value;
+        const d = {
+          nama: el("lm-nama").value.trim(),
+          hp: el("lm-hp").value.trim(),
+          email: el("lm-email").value.trim(),
+          unit: el("lm-unit").value,
+          sumber: el("lm-src").value,
+          status: el("lm-status").value,
+          sales_id: el("lm-sales").value,
+          created_at: el("lm-tgl").value,
+        };
+        if (!d.nama || !d.hp) return alert("Nama dan HP wajib!");
+        let leads = S.get("leads") || [];
+        if (id) leads = leads.map((l) => (l.id === id ? { ...l, ...d } : l));
+        else leads.push({ id: "l" + uid(), ...d, reminders: [] });
+        S.set("leads", leads);
+        closeModal("modal-lead");
+        renderLeads();
+      }
+
+      // lead detail
+      let curLeadId = null;
+      function openLeadDetail(id) {
+        curLeadId = id;
+        const l = (S.get("leads") || []).find((x) => x.id === id);
+        if (!l) return;
+        el("ldm-header").innerHTML =
+          `<div style="font-family:var(--serif);font-size:22px;color:var(--gold2);margin-bottom:6px">${l.nama}</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.65)">${l.hp} · ${l.email || "(no email)"}</div>
+    <div style="margin-top:8px;display:flex;gap:8px">${bdg(l.status, LEAD_STATUS_BADGE[l.status] || "bl-dead")} ${bdg(l.sumber, SRC_BADGE[l.sumber] || "")}</div>`;
+        el("lds-status").value = l.status;
+        fillSalesDropdowns();
+        setTimeout(() => (el("lds-sales").value = l.sales_id || ""), 30);
+        el("ldm-info-grid").innerHTML = `
+    <div class="fg"><label>Minat Unit</label><p style="font-size:14px;font-weight:600">${l.unit || "—"}</p></div>
+    <div class="fg"><label>Tanggal Masuk</label><p style="font-size:14px;font-weight:600">${fmtD(l.created_at)}</p></div>
+    <div class="fg"><label>Sumber</label><p style="font-size:14px;font-weight:600">${l.sumber}</p></div>
+    <div class="fg"><label>Sales</label><p style="font-size:14px;font-weight:600">${l.sales_id ? userName(l.sales_id) : "Belum assign"}</p></div>`;
+        renderActList(id);
+        renderRemList(id);
+        ldTab(document.querySelector("#modal-lead-detail .tab"), "ldt-info");
+        el("modal-lead-detail").classList.add("open");
+      }
+      function updateLead(field, val) {
+        const leads = S.get("leads") || [],
+          idx = leads.findIndex((l) => l.id === curLeadId);
+        if (idx < 0) return;
+        const old = leads[idx][field];
+        leads[idx][field] = val;
+        S.set("leads", leads);
+        if (field === "status" && old !== val) {
+          const acts = S.get("activities") || {};
+          if (!acts[curLeadId]) acts[curLeadId] = [];
+          acts[curLeadId].unshift({
+            id: uid(),
+            cat: `Status: ${old} → ${val}`,
+            tgl: today(),
+            by: CU.id,
+            bynm: CU.nama,
+          });
+          S.set("activities", acts);
+          renderActList(curLeadId);
+        }
+        renderLeads();
+      }
+      function openEditLead() {
+        closeModal("modal-lead-detail");
+        openLeadModal(curLeadId);
+      }
+      function deleteLead() {
+        if (!confirm("Hapus lead ini?")) return;
+        S.set(
+          "leads",
+          (S.get("leads") || []).filter((l) => l.id !== curLeadId),
+        );
+        closeModal("modal-lead-detail");
+        renderLeads();
+      }
+      function addActLog() {
+        const txt = el("act-input").value.trim();
+        if (!txt) return alert("Tulis catatan dulu!");
+        const acts = S.get("activities") || {};
+        if (!acts[curLeadId]) acts[curLeadId] = [];
+        acts[curLeadId].unshift({
+          id: uid(),
+          cat: txt,
+          tgl: today(),
+          by: CU.id,
+          bynm: CU.nama,
+        });
+        S.set("activities", acts);
+        el("act-input").value = "";
+        renderActList(curLeadId);
+      }
+      function renderActList(id) {
+        const acts = (S.get("activities") || {})[id] || [];
+        el("act-list-wrap").innerHTML = acts.length
+          ? `<div style="padding:0 4px">${acts
+              .map(
+                (a, i) => `<div class="act-item">
+    <div class="act-dot" style="margin-top:4px"></div>
+    <div class="act-body"><div class="act-txt">${a.cat}</div><div class="act-meta">${fmtD(a.tgl)} · ${a.bynm}</div></div>
+  </div>`,
+              )
+              .join("")}</div>`
+          : '<div class="empty">Belum ada aktivitas.</div>';
+      }
+      function addReminder() {
+        const date = el("rem-date").value,
+          note = el("rem-note").value.trim();
+        if (!date) return alert("Pilih tanggal!");
+        const leads = S.get("leads") || [],
+          idx = leads.findIndex((l) => l.id === curLeadId);
+        if (idx < 0) return;
+        if (!leads[idx].reminders) leads[idx].reminders = [];
+        leads[idx].reminders.push({ id: uid(), date, note });
+        S.set("leads", leads);
+        el("rem-date").value = "";
+        el("rem-note").value = "";
+        renderRemList(curLeadId);
+      }
+      function renderRemList(id) {
+        const l = (S.get("leads") || []).find((x) => x.id === id);
+        const tod = today(),
+          rems = (l?.reminders || []).sort((a, b) =>
+            a.date.localeCompare(b.date),
+          );
+        el("rem-list-wrap").innerHTML = rems.length
+          ? rems
+              .map(
+                (r) => `<div class="rem-card ${r.date < tod ? "past" : ""}">
+    <div style="font-size:18px;margin-top:2px">${r.date < tod ? "⚠️" : "⏰"}</div>
+    <div class="rem-body"><div style="font-weight:700;font-size:13px">${r.date === tod ? '<span style="color:var(--gold)">HARI INI</span> — ' : ""} ${fmtD(r.date)}</div>
+    <div class="rem-note">${r.note || "—"}</div></div>
+    <button class="btn btn-sm" style="color:var(--red);border-color:var(--red)" onclick="delReminder('${id}','${r.id}')">Hapus</button>
+  </div>`,
+              )
+              .join("")
+          : '<div class="empty">Belum ada reminder.</div>';
+      }
+      function delReminder(lid, rid) {
+        const leads = S.get("leads") || [],
+          idx = leads.findIndex((l) => l.id === lid);
+        if (idx < 0) return;
+        leads[idx].reminders = (leads[idx].reminders || []).filter(
+          (r) => r.id !== rid,
+        );
+        S.get("leads");
+        S.set("leads", leads);
+        renderRemList(lid);
+      }
+
+      // crm tabs
+      function switchCrmTab(tabEl, targetId) {
+        document
+          .querySelectorAll("#page-crm .tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll("#page-crm .tab-pane")
+          .forEach((t) => t.classList.remove("active"));
+        tabEl.classList.add("active");
+        el(targetId).classList.add("active");
+        if (targetId === "crm-reminder") renderReminders();
+        if (targetId === "crm-pipeline") renderPipeline();
+        if (targetId === "crm-leads") renderLeads();
+      }
+      function ldTab(tabEl, targetId) {
+        document
+          .querySelectorAll("#modal-lead-detail .tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll("#modal-lead-detail .tab-pane")
+          .forEach((t) => t.classList.remove("active"));
+        tabEl.classList.add("active");
+        el(targetId).classList.add("active");
+      }
+
+      // ════════════════════════════════════════
+      //  4. CICILAN
+      // ════════════════════════════════════════
+      function renderCicilan() {
+        const customers = S.get("customers") || [];
+        const q = (el("cq")?.value || "").toLowerCase(),
+          fst = el("cf-status")?.value || "",
+          fj = el("cf-jenis")?.value || "";
+        let data = customers;
+        if (q) data = data.filter((c) => c.nama.toLowerCase().includes(q));
+        if (fst) data = data.filter((c) => c.status === fst);
+        if (fj) data = data.filter((c) => c.jenis === fj);
+
+        const telat = customers.filter((c) => c.status === "Telat");
+        const lunas = customers.filter((c) => c.status === "Lunas");
+        const totalTagih = customers.reduce((s, c) => s + c.total, 0);
+        const totalMasuk = customers.reduce((s, c) => s + c.terbayar, 0);
+        el("cicilan-stats").innerHTML = `
+    <div class="scard"><div class="scard-bar" style="background:var(--green)"></div><div class="scard-lbl">Total Customer</div><div class="scard-val">${customers.length}</div><div class="scard-sub">${lunas.length} sudah lunas</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--red)"></div><div class="scard-lbl">Telat Bayar</div><div class="scard-val" style="color:var(--red)">${telat.length}</div><div class="scard-sub">Perlu perhatian!</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--blue)"></div><div class="scard-lbl">Total Piutang</div><div class="scard-val" style="font-size:22px">Rp ${fmtRp(totalTagih)}</div><div class="scard-sub">Keseluruhan</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--gold)"></div><div class="scard-lbl">Terkumpul</div><div class="scard-val" style="font-size:22px">Rp ${fmtRp(totalMasuk)}</div><div class="scard-sub">${Math.round((totalMasuk / totalTagih) * 100 || 0)}% dari total</div></div>
+  `;
+        el("cicilan-tb").innerHTML = data.length
+          ? data
+              .map((c) => {
+                const sisa = c.total - c.terbayar;
+                const isLate = c.jatuh_tempo < today() && c.status !== "Lunas";
+                return `<tr ${isLate ? 'style="background:#fff8f8"' : ""}>
+      <td><div class="tname">${c.nama}</div><div class="tsub">${c.hp}</div></td>
+      <td>${c.unit_label}</td><td>${c.jenis}</td>
+      <td style="font-weight:700">Rp ${fmtRp(c.total)}</td>
+      <td style="color:var(--green);font-weight:700">Rp ${fmtRp(c.terbayar)}</td>
+      <td style="color:${sisa > 0 ? "var(--red)" : "var(--green)"};font-weight:700">Rp ${fmtRp(sisa)}</td>
+      <td class="tsub" style="${isLate ? "color:var(--red);font-weight:700" : ""}">
+        ${fmtD(c.jatuh_tempo)}${isLate ? " ⚠️" : ""}</td>
+      <td>${bdg(c.status, PAY_BADGE[c.status] || "bp-belum")}</td>
+      <td><button class="btn btn-sm" onclick="openCicilanDetail('${c.id}')">Detail</button></td>
+    </tr>`;
+              })
+              .join("")
+          : `<tr><td colspan="9" class="empty">Tidak ada data cicilan.</td></tr>`;
+      }
+
+      let curCustId = null;
+      function openCicilanDetail(id) {
+        curCustId = id;
+        const c = (S.get("customers") || []).find((x) => x.id === id);
+        if (!c) return;
+        el("cdm-title").textContent = `Cicilan — ${c.nama}`;
+        const sisa = c.total - c.terbayar;
+        el("cdm-header").innerHTML = `<div class="g2">
+    <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase">Unit</div><div style="font-size:14px;font-weight:700;margin-top:3px">${c.unit_label}</div></div>
+    <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase">Jenis</div><div style="font-size:14px;font-weight:700;margin-top:3px">${c.jenis}</div></div>
+    <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase">Total</div><div style="font-size:14px;font-weight:700;margin-top:3px">Rp ${fmtRp(c.total)}</div></div>
+    <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase">Sisa</div><div style="font-size:14px;font-weight:700;color:var(--red);margin-top:3px">Rp ${fmtRp(sisa)}</div></div>
+  </div>
+  <div style="margin-top:12px"><div style="font-size:11px;color:var(--muted);margin-bottom:5px">Progress Pembayaran</div>
+    <div class="prog-wrap"><div class="prog-bar" style="width:${Math.min(100, (c.terbayar / c.total) * 100)}%;background:var(--green)"></div></div>
+    <div style="font-size:11.5px;color:var(--muted);margin-top:4px">${Math.round((c.terbayar / c.total) * 100)}% — Rp ${fmtRp(c.terbayar)} dari Rp ${fmtRp(c.total)}</div>
+  </div>`;
+        renderPayList(id);
+        el("modal-cicilan-detail").classList.add("open");
+      }
+      function renderPayList(cid) {
+        const pays = (S.get("payments") || {})[cid] || [];
+        el("cdm-payments").innerHTML = pays.length
+          ? `<div class="tw"><table><thead><tr><th>Tanggal</th><th>Jumlah</th><th>Keterangan</th><th>Metode</th></tr></thead><tbody>${pays
+              .map(
+                (p) => `<tr>
+    <td>${fmtD(p.tgl)}</td><td style="font-weight:700;color:var(--green)">Rp ${fmtRp(p.jumlah)}</td>
+    <td>${p.ket}</td><td class="tsub">${p.metode}</td></tr>`,
+              )
+              .join("")}</tbody></table></div>`
+          : '<div class="empty">Belum ada riwayat pembayaran.</div>';
+      }
+      function openAddPayment() {
+        el("pm-cust-id").value = curCustId;
+        el("pm-tgl").value = today();
+        el("pm-jumlah").value = "";
+        el("pm-ket").value = "";
+        el("modal-pay").classList.add("open");
+      }
+      function savePayment() {
+        const cid = el("pm-cust-id").value,
+          jumlah = Number(el("pm-jumlah").value) || 0;
+        if (!jumlah) return alert("Jumlah wajib diisi!");
+        const pays = S.get("payments") || {};
+        if (!pays[cid]) pays[cid] = [];
+        pays[cid].unshift({
+          id: uid(),
+          tgl: el("pm-tgl").value,
+          jumlah,
+          ket: el("pm-ket").value.trim(),
+          metode: el("pm-metode").value,
+        });
+        S.set("payments", pays);
+        // update customer terbayar
+        const custs = S.get("customers") || [],
+          idx = custs.findIndex((c) => c.id === cid);
+        if (idx >= 0) {
+          custs[idx].terbayar += jumlah;
+          if (custs[idx].terbayar >= custs[idx].total)
+            custs[idx].status = "Lunas";
+          S.set("customers", custs);
+        }
+        closeModal("modal-pay");
+        renderPayList(cid);
+        renderCicilan();
+        openCicilanDetail(cid);
+      }
+
+      // ════════════════════════════════════════
+      //  5. DOKUMEN
+      // ════════════════════════════════════════
+      const DOC_FIELDS = ["ktp", "kk", "npwp", "slip", "rek", "akad"];
+      const DOC_LABELS = {
+        ktp: "KTP",
+        kk: "KK",
+        npwp: "NPWP",
+        slip: "Slip Gaji",
+        rek: "Rek. Bank",
+        akad: "Akad",
+      };
+      function renderDokumen() {
+        const docs = S.get("dokumen") || [];
+        const q = (el("dq")?.value || "").toLowerCase(),
+          fst = el("df-status")?.value || "";
+        let data = docs;
+        if (q) data = data.filter((d) => d.nama.toLowerCase().includes(q));
+        if (fst) data = data.filter((d) => d.status === fst);
+        const getIcon = (v) =>
+          ({ Lengkap: "✅", "": "❌", "Dalam Proses": "🔄", Kurang: "⚠️" })[
+            v
+          ] || "❌";
+        el("dokumen-tb").innerHTML = data.length
+          ? data
+              .map(
+                (d) => `<tr>
+    <td class="tname" style="cursor:pointer;color:var(--g2)" onclick="openDokDetail('${d.id}')">${d.nama}</td>
+    <td class="tsub">${d.unit_label}</td>
+    ${DOC_FIELDS.map((f) => `<td style="text-align:center">${getIcon(d[f])}</td>`).join("")}
+    <td>${bdg(d.status, DOC_BADGE[d.status] || "bd-missing")}</td>
+    <td><button class="btn btn-sm" onclick="openDokDetail('${d.id}')">Detail</button></td>
+  </tr>`,
+              )
+              .join("")
+          : `<tr><td colspan="10" class="empty">Tidak ada data dokumen.</td></tr>`;
+      }
+      let curDokId = null;
+      function openDokDetail(id) {
+        curDokId = id;
+        const d = (S.get("dokumen") || []).find((x) => x.id === id);
+        if (!d) return;
+        el("ddm-title").textContent = `Dokumen — ${d.nama}`;
+        const DOC_OPTS = ["Lengkap", "Dalam Proses", "Kurang"];
+        el("ddm-content").innerHTML =
+          `<div style="font-size:12.5px;color:var(--muted);margin-bottom:14px">${d.unit_label}</div>` +
+          DOC_FIELDS.map(
+            (f) => `<div class="doc-item">
+      <div class="doc-chk">${{ Lengkap: "✅", "Dalam Proses": "🔄", Kurang: "⚠️" }[d[f]] || "❌"}</div>
+      <div class="doc-name">${DOC_LABELS[f]}</div>
+      <select data-field="${f}" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;font-family:var(--sans);font-size:12px;outline:none;">
+        ${DOC_OPTS.map((o) => `<option${d[f] === o ? " selected" : ""}>${o}</option>`).join("")}
+      </select>
+    </div>`,
+          ).join("") +
+          `<div class="fg" style="margin-top:14px"><label>Catatan</label>
+      <textarea id="dok-catatan" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:var(--sans);font-size:13px;resize:vertical;min-height:70px;outline:none;">${d.catatan || ""}</textarea>
+    </div>`;
+        el("modal-dok-detail").classList.add("open");
+      }
+      function saveDokumen() {
+        const docs = S.get("dokumen") || [],
+          idx = docs.findIndex((d) => d.id === curDokId);
+        if (idx < 0) return;
+        document
+          .querySelectorAll("#ddm-content select[data-field]")
+          .forEach((s) => {
+            docs[idx][s.dataset.field] = s.value;
+          });
+        docs[idx].catatan = el("dok-catatan").value.trim();
+        const vals = DOC_FIELDS.map((f) => docs[idx][f]);
+        docs[idx].status = vals.every((v) => v === "Lengkap")
+          ? "Lengkap"
+          : vals.some((v) => v === "Kurang")
+            ? "Kurang"
+            : "Dalam Proses";
+        S.set("dokumen", docs);
+        closeModal("modal-dok-detail");
+        renderDokumen();
+      }
+
+      // ════════════════════════════════════════
+      //  6. KONSTRUKSI
+      // ════════════════════════════════════════
+      function renderKonstruksi() {
+        const data = S.get("konstruksi") || [];
+        const avg = data.length
+          ? Math.round(data.reduce((s, k) => s + k.pct, 0) / data.length)
+          : 0;
+        const selesai = data.filter((k) => k.pct === 100).length;
+        const bloks = [...new Set(data.map((k) => k.blok))];
+        el("konstr-stats").innerHTML = `
+    <div class="scard"><div class="scard-bar" style="background:var(--g3)"></div><div class="scard-lbl">Unit Dipantau</div><div class="scard-val">${data.length}</div><div class="scard-sub">di ${bloks.length} blok</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--green)"></div><div class="scard-lbl">Selesai 100%</div><div class="scard-val">${selesai}</div><div class="scard-sub">unit rampung</div></div>
+    <div class="scard"><div class="scard-bar" style="background:var(--gold)"></div><div class="scard-lbl">Avg Progress</div><div class="scard-val">${avg}%</div><div class="scard-sub">keseluruhan proyek</div></div>
+  `;
+        // cluster progress
+        el("konstr-cluster").innerHTML = bloks
+          .map((b) => {
+            const bu = data.filter((k) => k.blok === b);
+            const bavg = Math.round(
+              bu.reduce((s, k) => s + k.pct, 0) / bu.length,
+            );
+            const col =
+              bavg >= 80
+                ? "var(--green)"
+                : bavg >= 40
+                  ? "var(--gold)"
+                  : "var(--orange)";
+            return `<div class="const-row">
+      <div class="const-name">${b}</div>
+      <div class="prog-wrap"><div class="prog-bar" style="width:${bavg}%;background:${col}"></div></div>
+      <div class="const-pct" style="color:${col}">${bavg}%</div>
+    </div>`;
+          })
+          .join("");
+        // tahap progress
+        const TAHAPS = [
+          "Persiapan Lahan",
+          "Pondasi",
+          "Struktur",
+          "Dinding & Atap",
+          "MEP (Listrik/Air)",
+          "Finishing Interior",
+          "Finishing Eksterior",
+          "Selesai",
+        ];
+        const tahapCount = {};
+        TAHAPS.forEach((t) => (tahapCount[t] = 0));
+        data.forEach((k) => {
+          if (tahapCount[k.tahap] !== undefined) tahapCount[k.tahap]++;
+        });
+        const mx = Math.max(...Object.values(tahapCount), 1);
+        el("konstr-tahap").innerHTML = TAHAPS.map(
+          (t, i) => `<div class="src-row">
+    <div class="src-name" style="width:150px;font-size:11.5px">${t}</div>
+    <div class="src-bw"><div class="src-bf" style="width:${(tahapCount[t] / mx) * 100}%;background:${i === 7 ? "var(--green)" : "var(--gold)"}"></div></div>
+    <div class="src-n">${tahapCount[t]}</div>
+  </div>`,
+        ).join("");
+        // detail table
+        el("konstr-tb").innerHTML = data
+          .map((k) => {
+            const col =
+              k.pct >= 80
+                ? "var(--green)"
+                : k.pct >= 40
+                  ? "var(--gold)"
+                  : "var(--orange)";
+            return `<tr>
+      <td>${k.blok}</td><td><strong>No.${k.no}</strong></td><td>${k.tipe}</td>
+      <td>${bdg(k.tahap, "ba-pending")}</td>
+      <td style="min-width:140px"><div style="display:flex;align-items:center;gap:8px">
+        <div class="prog-wrap"><div class="prog-bar" style="width:${k.pct}%;background:${col}"></div></div>
+        <span style="font-weight:700;color:${col};font-size:12px;width:36px">${k.pct}%</span></div></td>
+      <td class="tsub">${fmtD(k.updated_at)}</td>
+      <td class="tsub">${k.catatan || "—"}</td>
+    </tr>`;
+          })
+          .join("");
+        // fill unit dropdown
+        const units = S.get("units") || [];
+        el("km-unit").innerHTML = units
+          .map(
+            (u) =>
+              `<option value="${u.id}">${u.blok} No.${u.no} — ${u.tipe}</option>`,
+          )
+          .join("");
+      }
+      function openKonstrModal() {
+        renderKonstruksi();
+        el("modal-konstr").classList.add("open");
+      }
+      function saveKonstr() {
+        const uid_ = el("km-unit").value,
+          data = S.get("konstruksi") || [];
+        const unit = (S.get("units") || []).find((u) => u.id === uid_);
+        if (!unit) return;
+        const existing = data.findIndex((k) => k.unit_id === uid_);
+        const entry = {
+          id: existing >= 0 ? data[existing].id : "k" + uid(),
+          unit_id: uid_,
+          blok: unit.blok,
+          no: unit.no,
+          tipe: unit.tipe,
+          tahap: el("km-tahap").value,
+          pct: Number(el("km-pct").value),
+          updated_at: today(),
+          catatan: el("km-catatan").value.trim(),
+        };
+        if (existing >= 0) data[existing] = entry;
+        else data.push(entry);
+        S.set("konstruksi", data);
+        closeModal("modal-konstr");
+        renderKonstruksi();
+      }
+
+      // ════════════════════════════════════════
+      //  7. APPROVAL
+      // ════════════════════════════════════════
+      function renderApprovals() {
+        const all = S.get("approvals") || [];
+        renderApprList(
+          "appr-pending-list",
+          all.filter((a) => a.status === "pending"),
+        );
+        renderApprList(
+          "appr-done-list",
+          all.filter((a) => a.status !== "pending"),
+        );
+        renderApprList("appr-all-list", all);
+      }
+      function renderApprList(elId, data) {
+        const JENIS_COLOR = {
+          Approved: "var(--green)",
+          Rejected: "var(--red)",
+          Pending: "var(--gold)",
+        };
+        el(elId).innerHTML = data.length
+          ? data
+              .map(
+                (a) => `<div class="appr-card">
+    <div>
+      <div class="appr-badge" style="background:${a.status === "approved" ? "#d4edda" : a.status === "rejected" ? "#f8d7da" : "#fff3cd"};color:${a.status === "approved" ? "#155724" : a.status === "rejected" ? "#721c24" : "#856404"}">${a.jenis}</div>
+    </div>
+    <div class="appr-body">
+      <div class="appr-title">${a.perihal}</div>
+      <div class="appr-meta">${a.bynm} · ${fmtD(a.created_at)} · ${bdg(a.status === "approved" ? "Disetujui" : a.status === "rejected" ? "Ditolak" : "Pending", APPR_BADGE[a.status])}</div>
+      ${a.ket ? `<div class="appr-note">${a.ket}</div>` : ""}
+      ${a.review_note ? `<div class="appr-note" style="margin-top:6px;border-left:3px solid var(--gold);background:#fffbf0"><strong>Catatan Review:</strong> ${a.review_note}</div>` : ""}
+    </div>
+    <div>${a.status === "pending" && (CU.role === "owner" || CU.role === "admin") ? `<button class="btn btn-gold btn-sm" onclick="openApprReview('${a.id}')">Review</button>` : ""}
+    </div>
+  </div>`,
+              )
+              .join("")
+          : `<div class="empty"><div class="empty-icon">✅</div>Tidak ada data.</div>`;
+      }
+      function saveApproval() {
+        const a = {
+          id: "a" + uid(),
+          jenis: el("apm-jenis").value,
+          perihal: el("apm-perihal").value.trim(),
+          ket: el("apm-ket").value.trim(),
+          status: "pending",
+          by: CU.id,
+          bynm: CU.nama,
+          created_at: today(),
+          review_note: "",
+          reviewed_by: "",
+          reviewed_at: "",
+        };
+        if (!a.perihal) return alert("Perihal wajib diisi!");
+        const all = S.get("approvals") || [];
+        all.unshift(a);
+        S.set("approvals", all);
+        refreshApprBadge();
+        closeModal("modal-appr");
+        renderApprovals();
+        alert("Approval berhasil diajukan!");
+      }
+      let curApprId = null;
+      function openApprReview(id) {
+        curApprId = id;
+        const a = (S.get("approvals") || []).find((x) => x.id === id);
+        if (!a) return;
+        el("arvm-title").textContent = `Review: ${a.jenis}`;
+        el("arvm-body").innerHTML =
+          `<div style="background:#faf8f4;border-radius:10px;padding:16px;margin-bottom:16px">
+    <div style="font-size:15px;font-weight:700;margin-bottom:8px">${a.perihal}</div>
+    <div style="font-size:12.5px;color:var(--muted)">Diajukan oleh: <strong>${a.bynm}</strong> · ${fmtD(a.created_at)}</div>
+    ${a.ket ? `<div style="margin-top:10px;font-size:13px;color:var(--text)">${a.ket}</div>` : ""}
+  </div>`;
+        el("arvm-note").value = "";
+        el("modal-appr-review").classList.add("open");
+      }
+      function reviewApproval(decision) {
+        const note = el("arvm-note").value.trim();
+        const all = S.get("approvals") || [],
+          idx = all.findIndex((a) => a.id === curApprId);
+        if (idx < 0) return;
+        all[idx].status = decision;
+        all[idx].review_note = note;
+        all[idx].reviewed_by = CU.id;
+        all[idx].reviewed_at = today();
+        S.set("approvals", all);
+        refreshApprBadge();
+        closeModal("modal-appr-review");
+        renderApprovals();
+        renderDash();
+      }
+      function switchApprTab(tabEl, targetId) {
+        document
+          .querySelectorAll("#page-approval .tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll("#page-approval .tab-pane")
+          .forEach((t) => t.classList.remove("active"));
+        tabEl.classList.add("active");
+        el(targetId).classList.add("active");
+      }
+
+      // ════════════════════════════════════════
+      //  TIM SALES
+      // ════════════════════════════════════════
+      function renderTim() {
+        const sales = getSales(),
+          allLeads = S.get("leads") || [];
+        el("tim-grid").innerHTML = sales
+          .map((u) => {
+            const ml = allLeads.filter((l) => l.sales_id === u.id);
+            const active = ml.filter(
+              (l) => !["Tidak Aktif", "Batal"].includes(l.status),
+            );
+            const closing = ml.filter((l) => l.status === "Closing");
+            const conv = ml.length
+              ? Math.round((closing.length / ml.length) * 100)
+              : 0;
+            return `<div style="background:var(--white);border:1px solid var(--border);border-radius:13px;padding:24px;text-align:center">
+      <div style="width:58px;height:58px;border-radius:50%;background:var(--g1);color:var(--gold2);font-size:22px;font-weight:800;font-family:var(--serif);display:flex;align-items:center;justify-content:center;margin:0 auto 13px">${u.nama.charAt(0)}</div>
+      <div style="font-size:15px;font-weight:700">${u.nama}</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:13px">${u.email}</div>
+      ${bdg("Marketing", "bl-survey")}
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px">
+        <div><div style="font-family:var(--serif);font-size:24px;color:var(--g1)">${ml.length}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em">Total</div></div>
+        <div><div style="font-family:var(--serif);font-size:24px;color:var(--g1)">${active.length}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em">Aktif</div></div>
+        <div><div style="font-family:var(--serif);font-size:24px;color:var(--green)">${closing.length}</div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em">Closing</div></div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:5px">Conversion Rate: ${conv}%</div>
+        <div class="prog-wrap"><div class="prog-bar" style="width:${conv}%;background:var(--gold)"></div></div>
+      </div>
+    </div>`;
+          })
+          .join("");
+      }
+
+      // ════════════════════════════════════════
+      //  CLICK OUTSIDE MODAL
+      // ════════════════════════════════════════
+      document.querySelectorAll(".overlay").forEach((o) => {
+        o.addEventListener("click", (e) => {
+          if (e.target === o) o.classList.remove("open");
+        });
+      });
+    </script>
+  </body>
+</html>
