@@ -1256,19 +1256,15 @@
         background: var(--border);
         border-radius: 99px;
       }
-
       /* ══════════════════════════════════════════
          MOBILE RESPONSIVE
       ══════════════════════════════════════════ */
-
-      /* Hamburger button */
       .mob-toggle {
         display: none;
         background: none;
         border: none;
         cursor: pointer;
         padding: 6px 8px;
-        margin-right: 6px;
         border-radius: 7px;
         flex-direction: column;
         gap: 4px;
@@ -1283,11 +1279,6 @@
         border-radius: 2px;
         transition: all 0.2s;
       }
-      .mob-toggle:active {
-        background: var(--border);
-      }
-
-      /* Sidebar overlay on mobile */
       .sb-overlay {
         display: none;
         position: fixed;
@@ -1299,27 +1290,22 @@
       .sb-overlay.open {
         display: block;
       }
-
       @media (max-width: 768px) {
-        /* ── Body & shell ── */
         html,
         body {
           overflow: hidden;
         }
-
         #app {
           flex-direction: column;
           height: 100vh;
           overflow: hidden;
         }
-
-        /* ── Sidebar becomes slide-in drawer ── */
         .sidebar {
           position: fixed;
           top: 0;
           left: 0;
           bottom: 0;
-          width: 260px;
+          width: 270px;
           z-index: 300;
           transform: translateX(-100%);
           transition: transform 0.25s ease;
@@ -1328,8 +1314,6 @@
           transform: translateX(0);
           box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
         }
-
-        /* ── Topbar ── */
         .topbar {
           height: 52px;
           padding: 0 14px;
@@ -1341,13 +1325,11 @@
         .mob-toggle {
           display: flex;
         }
-        .topbar-left {
+        .topbar-inner {
           display: flex;
           align-items: center;
           gap: 4px;
         }
-
-        /* ── Main content ── */
         .main {
           flex: 1;
           overflow: hidden;
@@ -1361,8 +1343,6 @@
           padding: 14px;
           -webkit-overflow-scrolling: touch;
         }
-
-        /* ── Login ── */
         #login-screen {
           padding: 20px;
           align-items: flex-start;
@@ -1373,13 +1353,10 @@
           width: 100%;
           padding: 28px 22px;
           border-radius: 14px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
         .lbrand {
           font-size: 26px;
         }
-
-        /* ── Grid layouts → single column ── */
         .sg-4 {
           grid-template-columns: repeat(2, 1fr) !important;
         }
@@ -1404,20 +1381,12 @@
         .form-row3 {
           grid-template-columns: 1fr !important;
         }
-
-        /* ── Stat cards ── */
         .scard {
           padding: 15px 16px;
         }
         .scard-val {
-          font-size: 26px;
-        }
-        .scard-icon {
           font-size: 22px;
-          right: 12px;
         }
-
-        /* ── Filter bar ── */
         .fbar {
           padding: 10px 12px;
           gap: 7px;
@@ -1427,54 +1396,28 @@
           flex: 1;
           min-width: 0;
         }
-        .fbar select {
-          flex-shrink: 0;
-        }
-        .fbar .btn {
-          flex-shrink: 0;
-        }
-
-        /* ── Tables: horizontal scroll ── */
         .tw {
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
-          border-radius: 0 0 12px 12px;
         }
         table {
-          min-width: 520px;
+          min-width: 500px;
         }
         thead th,
         tbody td {
           padding: 9px 11px;
           font-size: 12px;
         }
-        .tname {
-          font-size: 13px;
-        }
-        .tsub {
-          font-size: 11px;
-        }
-
-        /* ── Card header ── */
         .card-hd {
           padding: 12px 14px;
           flex-wrap: wrap;
           gap: 8px;
         }
-        .card-hd .btn,
-        .card-hd .btn-sm {
-          font-size: 11.5px;
-          padding: 5px 10px;
-        }
-
-        /* ── Unit grid ── */
         .unit-grid {
           grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
           padding: 14px;
           gap: 10px;
         }
-
-        /* ── Pipeline: horizontal scroll ── */
         .pipe-wrap {
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
@@ -1484,8 +1427,6 @@
           width: 175px;
           flex-shrink: 0;
         }
-
-        /* ── Modal: full screen on mobile ── */
         .overlay {
           align-items: flex-end;
           padding: 0;
@@ -1524,43 +1465,15 @@
           padding: 12px;
           font-size: 13.5px;
         }
-
-        /* ── Topbar actions ── */
         .topbar-right .btn {
           padding: 5px 10px;
           font-size: 11.5px;
         }
-
-        /* ── Approval cards ── */
         .appr-card {
           flex-direction: column;
           gap: 10px;
           padding: 14px;
         }
-
-        /* ── Reminder cards ── */
-        .rem-card {
-          padding: 12px 13px;
-        }
-
-        /* ── Construction ── */
-        .const-row {
-          flex-wrap: wrap;
-          gap: 8px;
-          padding: 11px 14px;
-        }
-        .const-name {
-          width: 100%;
-          font-size: 13px;
-        }
-
-        /* ── Src bar ── */
-        .src-name {
-          width: 90px;
-          font-size: 11px;
-        }
-
-        /* ── Tabs ── */
         .tabs {
           overflow-x: auto;
           white-space: nowrap;
@@ -1575,26 +1488,14 @@
           font-size: 12px;
           padding: 9px 13px;
         }
-
-        /* ── Cashflow bar ── */
         .cf-lbl {
-          width: 60px;
+          width: 100px;
           font-size: 11px;
         }
         .cf-val {
-          width: 70px;
+          width: 90px;
           font-size: 11.5px;
         }
-
-        /* ── Leaderboard ── */
-        .ldr-row {
-          padding: 10px 14px;
-        }
-        .ldr-stat {
-          font-size: 11px;
-        }
-
-        /* ── Button sizes ── */
         .btn {
           font-size: 12.5px;
           padding: 7px 13px;
@@ -1603,24 +1504,16 @@
           font-size: 11.5px;
           padding: 5px 10px;
         }
-        .btn-xs {
-          font-size: 10.5px;
-          padding: 4px 8px;
-        }
       }
-
       @media (max-width: 400px) {
         .sg-4 {
           grid-template-columns: 1fr 1fr !important;
         }
         .scard-val {
-          font-size: 22px;
+          font-size: 18px;
         }
         .content {
           padding: 10px;
-        }
-        .unit-grid {
-          grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
         }
       }
     </style>
@@ -1727,6 +1620,15 @@
             >
           </div>
 
+          <div class="sb-sec ro-owner ro-admin">Keuangan</div>
+          <div
+            class="ni ro-owner ro-admin"
+            id="nav-keuangan"
+            onclick="go('keuangan', this)"
+          >
+            <span class="ni-icon">📊</span>Keuangan & Akuntansi
+          </div>
+
           <div class="sb-sec ro-owner ro-admin">Tim</div>
           <div
             class="ni ro-owner ro-admin"
@@ -1748,12 +1650,11 @@
       <div class="main">
         <div class="topbar">
           <div
-            class="topbar-left"
+            class="topbar-inner"
             style="display: flex; align-items: center; gap: 4px"
           >
             <button
               class="mob-toggle"
-              id="mob-toggle"
               onclick="toggleSidebar()"
               aria-label="Menu"
             >
@@ -2139,10 +2040,173 @@
             </div>
           </div>
 
+          <!-- ══ 8. KEUANGAN & AKUNTANSI ══ -->
+          <div class="page" id="page-keuangan">
+            <!-- Stats -->
+            <div class="sg sg-4" id="keu-stats"></div>
+
+            <!-- Row 1: Arus Kas + Laba Rugi -->
+            <div class="g2" style="margin-bottom: 16px">
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">💰 Arus Kas Bulan Ini</span>
+                  <select
+                    id="keu-bulan"
+                    onchange="renderKeuangan()"
+                    style="
+                      padding: 5px 10px;
+                      border: 1.5px solid var(--border);
+                      border-radius: 7px;
+                      font-family: var(--sans);
+                      font-size: 12px;
+                      outline: none;
+                      background: var(--white);
+                    "
+                  >
+                    <option>Mei 2026</option>
+                    <option>Apr 2026</option>
+                    <option>Mar 2026</option>
+                    <option>Feb 2026</option>
+                    <option>Jan 2026</option>
+                  </select>
+                </div>
+                <div style="padding: 18px 20px" id="keu-kas-chart"></div>
+              </div>
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">📈 Laba Rugi Per Cluster</span>
+                </div>
+                <div style="padding: 18px 20px" id="keu-labarugi"></div>
+              </div>
+            </div>
+
+            <!-- Row 2: Pemasukan + Pengeluaran -->
+            <div class="g2" style="margin-bottom: 16px">
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">⬆️ Pemasukan</span>
+                  <button
+                    class="btn btn-gold btn-sm"
+                    onclick="openKeuModal('masuk')"
+                  >
+                    + Catat Pemasukan
+                  </button>
+                </div>
+                <div class="tw">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Tanggal</th>
+                        <th>Kategori</th>
+                        <th>Keterangan</th>
+                        <th>Nominal</th>
+                      </tr>
+                    </thead>
+                    <tbody id="keu-masuk-tb"></tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-hd">
+                  <span class="card-hd-title">⬇️ Pengeluaran</span>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    onclick="openKeuModal('keluar')"
+                  >
+                    + Catat Pengeluaran
+                  </button>
+                </div>
+                <div class="tw">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Tanggal</th>
+                        <th>Kategori</th>
+                        <th>Keterangan</th>
+                        <th>Nominal</th>
+                      </tr>
+                    </thead>
+                    <tbody id="keu-keluar-tb"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Hutang Piutang -->
+            <div class="card">
+              <div class="card-hd">
+                <span class="card-hd-title"
+                  >📋 Rekapitulasi Piutang Customer</span
+                >
+                <span
+                  style="font-size: 11.5px; color: var(--muted)"
+                  id="keu-piutang-total"
+                ></span>
+              </div>
+              <div class="tw">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Unit</th>
+                      <th>Total Harga</th>
+                      <th>Terbayar</th>
+                      <th>Sisa Piutang</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="keu-piutang-tb"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
           <!-- ══ TIM SALES ══ -->
           <div class="page" id="page-tim">
             <div class="g3" id="tim-grid"></div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEUANGAN MODAL -->
+    <div class="overlay" id="modal-keuangan">
+      <div class="modal">
+        <div class="mh" id="keu-mh">Catat Transaksi</div>
+        <input type="hidden" id="keu-m-jenis" value="masuk" />
+        <div class="form-row">
+          <div class="fg">
+            <label>Tanggal</label>
+            <input type="date" id="keu-m-tgl" />
+          </div>
+          <div class="fg">
+            <label>Kategori</label>
+            <select id="keu-m-kat"></select>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Keterangan</label>
+          <input
+            type="text"
+            id="keu-m-ket"
+            placeholder="Contoh: DP Unit A-07 dari Budi Santoso"
+          />
+        </div>
+        <div class="fg">
+          <label>Nominal (Rp)</label>
+          <input type="number" id="keu-m-nominal" placeholder="0" />
+        </div>
+        <div class="fg">
+          <label>Catatan Tambahan</label>
+          <textarea id="keu-m-catatan" placeholder="Opsional..."></textarea>
+        </div>
+        <div class="mfooter">
+          <button class="btn" onclick="closeModal('modal-keuangan')">
+            Batal
+          </button>
+          <button class="btn btn-gold" onclick="saveKeuangan()">
+            Simpan Transaksi
+          </button>
         </div>
       </div>
     </div>
@@ -3417,6 +3481,7 @@
         dokumen: "Dokumen Customer",
         konstruksi: "Progress Pembangunan",
         approval: "Approval Internal",
+        keuangan: "Keuangan & Akuntansi",
         tim: "Tim Sales",
       };
       const PAGE_BTN = {
@@ -3430,6 +3495,7 @@
           label: "+ Ajukan Approval",
           fn: () => el("modal-appr").classList.add("open"),
         },
+        keuangan: null,
         tim: null,
       };
 
@@ -3461,6 +3527,7 @@
         if (page === "dokumen") renderDokumen();
         if (page === "konstruksi") renderKonstruksi();
         if (page === "approval") renderApprovals();
+        if (page === "keuangan") renderKeuangan();
         if (page === "tim") renderTim();
       }
 
@@ -4576,6 +4643,239 @@
       }
 
       // ════════════════════════════════════════
+      //  8. KEUANGAN & AKUNTANSI
+      // ════════════════════════════════════════
+      const KAT_MASUK = [
+        "DP / Uang Muka",
+        "Cicilan Bulanan",
+        "Pelunasan",
+        "Cash Keras",
+        "Lain-lain",
+      ];
+      const KAT_KELUAR = [
+        "Konstruksi & Material",
+        "Marketing & Iklan",
+        "Komisi Sales",
+        "Operasional Kantor",
+        "Gaji & THR",
+        "Perizinan & Legal",
+        "Lain-lain",
+      ];
+
+      function openKeuModal(jenis) {
+        el("keu-m-jenis").value = jenis;
+        el("keu-mh").textContent =
+          jenis === "masuk" ? "Catat Pemasukan" : "Catat Pengeluaran";
+        el("keu-m-kat").innerHTML = (jenis === "masuk" ? KAT_MASUK : KAT_KELUAR)
+          .map((k) => `<option>${k}</option>`)
+          .join("");
+        el("keu-m-tgl").value = today();
+        el("keu-m-ket").value = "";
+        el("keu-m-nominal").value = "";
+        el("keu-m-catatan").value = "";
+        el("modal-keuangan").classList.add("open");
+      }
+
+      function saveKeuangan() {
+        const jenis = el("keu-m-jenis").value;
+        const nominal = Number(el("keu-m-nominal").value) || 0;
+        if (!nominal) return alert("Nominal wajib diisi!");
+        const key = jenis === "masuk" ? "keu_masuk" : "keu_keluar";
+        const data = S.get(key) || [];
+        data.unshift({
+          id: "keu" + uid(),
+          tgl: el("keu-m-tgl").value,
+          kat: el("keu-m-kat").value,
+          ket: el("keu-m-ket").value.trim(),
+          nominal,
+          catatan: el("keu-m-catatan").value.trim(),
+          by: CU.nama,
+          created_at: today(),
+        });
+        S.set(key, data);
+        closeModal("modal-keuangan");
+        renderKeuangan();
+      }
+
+      function renderKeuangan() {
+        const masuk = S.get("keu_masuk") || [];
+        const keluar = S.get("keu_keluar") || [];
+        const customers = S.get("customers") || [];
+
+        const totalMasuk = masuk.reduce((s, t) => s + t.nominal, 0);
+        const totalKeluar = keluar.reduce((s, t) => s + t.nominal, 0);
+        const labaKotor = totalMasuk - totalKeluar;
+        const totalPiutang = customers.reduce(
+          (s, c) => s + Math.max(0, c.total - (c.terbayar || 0)),
+          0,
+        );
+
+        // ── Stats ──
+        el("keu-stats").innerHTML = `
+          <div class="scard"><div class="scard-bar" style="background:var(--green)"></div>
+            <div class="scard-lbl">Total Pemasukan</div>
+            <div class="scard-val" style="font-size:20px;color:var(--green)">Rp ${fmtRp(totalMasuk)}</div>
+            <div class="scard-sub">${masuk.length} transaksi</div><div class="scard-icon">⬆️</div></div>
+          <div class="scard"><div class="scard-bar" style="background:var(--red)"></div>
+            <div class="scard-lbl">Total Pengeluaran</div>
+            <div class="scard-val" style="font-size:20px;color:var(--red)">Rp ${fmtRp(totalKeluar)}</div>
+            <div class="scard-sub">${keluar.length} transaksi</div><div class="scard-icon">⬇️</div></div>
+          <div class="scard"><div class="scard-bar" style="background:${labaKotor >= 0 ? "var(--gold)" : "var(--red)"}"></div>
+            <div class="scard-lbl">Laba Kotor</div>
+            <div class="scard-val" style="font-size:20px;color:${labaKotor >= 0 ? "var(--g2)" : "var(--red)"}">Rp ${fmtRp(Math.abs(labaKotor))}</div>
+            <div class="scard-sub">${labaKotor >= 0 ? "Surplus" : "Defisit"}</div><div class="scard-icon">📊</div></div>
+          <div class="scard"><div class="scard-bar" style="background:var(--orange)"></div>
+            <div class="scard-lbl">Total Piutang</div>
+            <div class="scard-val" style="font-size:20px;color:var(--orange)">Rp ${fmtRp(totalPiutang)}</div>
+            <div class="scard-sub">${customers.filter((c) => c.status !== "Lunas").length} customer belum lunas</div><div class="scard-icon">📋</div></div>
+        `;
+
+        // ── Arus Kas Bar Chart ──
+        const CATS_IN = KAT_MASUK;
+        const CATS_OUT = KAT_KELUAR;
+        const kasRows = [
+          {
+            label: "Total Masuk",
+            val: totalMasuk,
+            color: "var(--green)",
+            pct: 100,
+          },
+          ...CATS_OUT.map((k) => {
+            const v = keluar
+              .filter((t) => t.kat === k)
+              .reduce((s, t) => s + t.nominal, 0);
+            return {
+              label: k,
+              val: v,
+              color: "var(--red)",
+              pct: totalMasuk ? Math.round((v / totalMasuk) * 100) : 0,
+            };
+          }).filter((r) => r.val > 0),
+          {
+            label: "Sisa (Laba Kotor)",
+            val: Math.max(0, labaKotor),
+            color: "var(--gold)",
+            pct: totalMasuk
+              ? Math.round((Math.max(0, labaKotor) / totalMasuk) * 100)
+              : 0,
+          },
+        ];
+        el("keu-kas-chart").innerHTML = kasRows
+          .map(
+            (r) => `
+          <div class="cf-bar-row">
+            <div class="cf-lbl" style="width:130px;font-size:11px">${r.label}</div>
+            <div class="cf-bw"><div class="cf-bf" style="width:${r.pct}%;background:${r.color}"></div></div>
+            <div class="cf-val" style="color:${r.color}">Rp ${fmtRp(r.val)}</div>
+          </div>`,
+          )
+          .join("");
+
+        // ── Laba Rugi Per Cluster ──
+        const units = S.get("units") || [];
+        const bloks = [...new Set(units.map((u) => u.blok))];
+        if (bloks.length === 0) {
+          el("keu-labarugi").innerHTML =
+            '<div class="empty"><div class="empty-icon">📈</div>Tambah data unit terlebih dahulu.</div>';
+        } else {
+          const totalKonstr = keluar
+            .filter((t) => t.kat === "Konstruksi & Material")
+            .reduce((s, t) => s + t.nominal, 0);
+          el("keu-labarugi").innerHTML = bloks
+            .map((b) => {
+              const bu = units.filter((u) => u.blok === b);
+              const rev = bu
+                .filter((u) => u.status === "Terjual")
+                .reduce((s, u) => s + u.harga, 0);
+              const cost =
+                bloks.length > 0 ? Math.round(totalKonstr / bloks.length) : 0;
+              const profit = rev - cost;
+              const pct = rev > 0 ? Math.round((profit / rev) * 100) : 0;
+              return `<div style="margin-bottom:16px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px">
+                <strong>${b}</strong>
+                <span style="font-weight:700;color:${profit >= 0 ? "var(--green)" : "var(--red)"}">
+                  ${profit >= 0 ? "+" : ""}Rp ${fmtRp(profit)}
+                </span>
+              </div>
+              <div style="display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--border)">
+                <div style="width:${Math.max(0, pct)}%;background:${profit >= 0 ? "var(--g3)" : "var(--red)"}"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:4px">
+                <span>Revenue: Rp ${fmtRp(rev)}</span>
+                <span>Est. Biaya: Rp ${fmtRp(cost)}</span>
+              </div>
+            </div>`;
+            })
+            .join("");
+        }
+
+        // ── Tabel Pemasukan ──
+        el("keu-masuk-tb").innerHTML = masuk.length
+          ? masuk
+              .slice(0, 10)
+              .map(
+                (t) => `<tr>
+              <td class="tsub">${fmtD(t.tgl)}</td>
+              <td><span class="badge bp-lunas">${t.kat}</span></td>
+              <td>${t.ket || "—"}</td>
+              <td style="font-weight:700;color:var(--green)">+Rp ${fmtRp(t.nominal)}</td>
+            </tr>`,
+              )
+              .join("")
+          : `<tr><td colspan="4" class="empty">Belum ada pemasukan dicatat.</td></tr>`;
+
+        // ── Tabel Pengeluaran ──
+        el("keu-keluar-tb").innerHTML = keluar.length
+          ? keluar
+              .slice(0, 10)
+              .map(
+                (t) => `<tr>
+              <td class="tsub">${fmtD(t.tgl)}</td>
+              <td><span class="badge bp-telat">${t.kat}</span></td>
+              <td>${t.ket || "—"}</td>
+              <td style="font-weight:700;color:var(--red)">-Rp ${fmtRp(t.nominal)}</td>
+            </tr>`,
+              )
+              .join("")
+          : `<tr><td colspan="4" class="empty">Belum ada pengeluaran dicatat.</td></tr>`;
+
+        // ── Piutang Customer ──
+        const totalPiutangAll = customers.reduce(
+          (s, c) => s + Math.max(0, c.total - (c.terbayar || 0)),
+          0,
+        );
+        el("keu-piutang-total").textContent =
+          `Total: Rp ${fmtRp(totalPiutangAll)}`;
+        el("keu-piutang-tb").innerHTML = customers.length
+          ? customers
+              .map((c) => {
+                const sisa = Math.max(0, c.total - (c.terbayar || 0));
+                const pct =
+                  c.total > 0
+                    ? Math.round(((c.terbayar || 0) / c.total) * 100)
+                    : 0;
+                return `<tr>
+                <td class="tname">${c.nama}</td>
+                <td class="tsub">${c.unit || "—"}</td>
+                <td>Rp ${fmtRp(c.total)}</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%;background:var(--green)"></div></div>
+                    <span style="font-size:11px;color:var(--muted);white-space:nowrap">Rp ${fmtRp(c.terbayar || 0)}</span>
+                  </div>
+                </td>
+                <td style="font-weight:700;color:${sisa > 0 ? "var(--orange)" : "var(--green)"}">
+                  ${sisa > 0 ? "Rp " + fmtRp(sisa) : "✓ Lunas"}
+                </td>
+                <td>${sisa === 0 ? '<span class="badge bp-lunas">Lunas</span>' : sisa < c.total ? '<span class="badge bp-belum">Sebagian</span>' : '<span class="badge bp-telat">Belum Bayar</span>'}</td>
+              </tr>`;
+              })
+              .join("")
+          : `<tr><td colspan="6" class="empty">Belum ada data customer.</td></tr>`;
+      }
+
+      // ════════════════════════════════════════
       //  CLICK OUTSIDE MODAL
       // ════════════════════════════════════════
       document.querySelectorAll(".overlay").forEach((o) => {
@@ -4585,19 +4885,16 @@
       });
 
       // ════════════════════════════════════════
-      //  MOBILE SIDEBAR TOGGLE
+      //  MOBILE SIDEBAR
       // ════════════════════════════════════════
       function toggleSidebar() {
-        const sb = document.querySelector(".sidebar");
-        const ov = document.getElementById("sb-overlay");
-        sb.classList.toggle("open");
-        ov.classList.toggle("open");
+        document.querySelector(".sidebar").classList.toggle("open");
+        document.getElementById("sb-overlay").classList.toggle("open");
       }
       function closeSidebar() {
         document.querySelector(".sidebar").classList.remove("open");
         document.getElementById("sb-overlay").classList.remove("open");
       }
-      // Close sidebar when nav item clicked on mobile
       document.querySelectorAll(".ni").forEach((ni) => {
         ni.addEventListener("click", () => {
           if (window.innerWidth <= 768) closeSidebar();
