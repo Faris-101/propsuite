@@ -1797,15 +1797,11 @@
                   />
                   <select id="ls-status" onchange="renderLeads()">
                     <option value="">Semua Status</option>
-                    <option>Lead Baru</option>
-                    <option>Dihubungi</option>
-                    <option>Tertarik</option>
-                    <option>Survey Lokasi</option>
-                    <option>Booking</option>
-                    <option>KPR</option>
+                    <option>New Lead</option>
+                    <option>Qualified</option>
+                    <option>Negotiation</option>
                     <option>Closing</option>
-                    <option>Tidak Aktif</option>
-                    <option>Batal</option>
+                    <option>Drop</option>
                   </select>
                   <select id="ls-src" onchange="renderLeads()">
                     <option value="">Semua Sumber</option>
@@ -2366,15 +2362,11 @@
           <div class="fg">
             <label>Status</label
             ><select id="lm-status">
-              <option>Lead Baru</option>
-              <option>Dihubungi</option>
-              <option>Tertarik</option>
-              <option>Survey Lokasi</option>
-              <option>Booking</option>
-              <option>KPR</option>
+              <option>New Lead</option>
+              <option>Qualified</option>
+              <option>Negotiation</option>
               <option>Closing</option>
-              <option>Tidak Aktif</option>
-              <option>Batal</option>
+              <option>Drop</option>
             </select>
           </div>
           <div class="fg">
@@ -2446,15 +2438,11 @@
                 outline: none;
               "
             >
-              <option>Lead Baru</option>
-              <option>Dihubungi</option>
-              <option>Tertarik</option>
-              <option>Survey Lokasi</option>
-              <option>Booking</option>
-              <option>KPR</option>
+              <option>New Lead</option>
+              <option>Qualified</option>
+              <option>Negotiation</option>
               <option>Closing</option>
-              <option>Tidak Aktif</option>
-              <option>Batal</option>
+              <option>Drop</option>
             </select>
           </div>
           <div
@@ -2980,7 +2968,7 @@
             email: "faris@mail.com",
             unit: "Tipe 45/90",
             sumber: "Facebook Ads",
-            status: "Tertarik",
+            status: "Qualified",
             sales_id: "u3",
             created_at: daysAgo(5),
             reminders: [
@@ -2998,7 +2986,7 @@
             email: "reni@mail.com",
             unit: "Tipe 36/72",
             sumber: "TikTok",
-            status: "Survey Lokasi",
+            status: "Negotiation",
             sales_id: "u4",
             created_at: daysAgo(8),
             reminders: [
@@ -3012,7 +3000,7 @@
             email: "dodi@mail.com",
             unit: "Tipe 60/120",
             sumber: "Pameran",
-            status: "Booking",
+            status: "Negotiation",
             sales_id: "u3",
             created_at: daysAgo(15),
             reminders: [],
@@ -3036,7 +3024,7 @@
             email: "toni@mail.com",
             unit: "Kavling",
             sumber: "Instagram",
-            status: "KPR",
+            status: "Qualified",
             sales_id: "u4",
             created_at: daysAgo(12),
             reminders: [{ id: uid(), date: today(), note: "Cek progress KPR" }],
@@ -3048,7 +3036,7 @@
             email: "",
             unit: "Tipe 45/90",
             sumber: "Website",
-            status: "Dihubungi",
+            status: "New Lead",
             sales_id: "u5",
             created_at: daysAgo(2),
             reminders: [],
@@ -3060,7 +3048,7 @@
             email: "",
             unit: "Ruko",
             sumber: "WA",
-            status: "Lead Baru",
+            status: "New Lead",
             sales_id: "",
             created_at: daysAgo(1),
             reminders: [],
@@ -3072,7 +3060,7 @@
             email: "yuni@mail.com",
             unit: "Tipe 36/72",
             sumber: "Facebook Ads",
-            status: "Tidak Aktif",
+            status: "Drop",
             sales_id: "u3",
             created_at: daysAgo(45),
             reminders: [],
@@ -3542,15 +3530,11 @@
         Blokir: "bs-blokir",
       };
       const LEAD_STATUS_BADGE = {
-        "Lead Baru": "bl-baru",
-        Dihubungi: "bl-dihubungi",
-        Tertarik: "bl-tertarik",
-        "Survey Lokasi": "bl-survey",
-        Booking: "bl-booking",
-        KPR: "bl-kpr",
+        "New Lead": "bl-baru",
+        Qualified: "bl-tertarik",
+        Negotiation: "bl-survey",
         Closing: "bl-closing",
-        "Tidak Aktif": "bl-dead",
-        Batal: "bl-dead",
+        Drop: "bl-dead",
       };
       const SRC_BADGE = {
         WA: "bsrc-wa",
@@ -3848,26 +3832,18 @@
       //  3. CRM
       // ════════════════════════════════════════
       const PIPE_STAGES = [
-        "Lead Baru",
-        "Dihubungi",
-        "Tertarik",
-        "Survey Lokasi",
-        "Booking",
-        "KPR",
+        "New Lead",
+        "Qualified",
+        "Negotiation",
         "Closing",
-        "Tidak Aktif",
-        "Batal",
+        "Drop",
       ];
       const PIPE_COLORS = {
-        "Lead Baru": "#6b7280",
-        Dihubungi: "#2980b9",
-        Tertarik: "#e67e22",
-        "Survey Lokasi": "#8e44ad",
-        Booking: "#16a2b8",
-        KPR: "#d4820a",
+        "New Lead": "#2980b9",
+        Qualified: "#e67e22",
+        Negotiation: "#8e44ad",
         Closing: "#27ae60",
-        "Tidak Aktif": "#9ca3af",
-        Batal: "#c0392b",
+        Drop: "#c0392b",
       };
 
       function getMyLeads() {
@@ -4616,9 +4592,7 @@
         el("tim-grid").innerHTML = sales
           .map((u) => {
             const ml = allLeads.filter((l) => l.sales_id === u.id);
-            const active = ml.filter(
-              (l) => !["Tidak Aktif", "Batal"].includes(l.status),
-            );
+            const active = ml.filter((l) => !["Drop"].includes(l.status));
             const closing = ml.filter((l) => l.status === "Closing");
             const conv = ml.length
               ? Math.round((closing.length / ml.length) * 100)
